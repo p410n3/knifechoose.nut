@@ -1,41 +1,45 @@
-knifechoose.nut
-===============
+kc.nut
+---------------
 
-First person knife model CSGO server-side script.
+VScript to use all Knife models on a local server. 
 
-Installation
-------------
+Original Script from https://github.com/serkas001/knifechoose.nut
 
-Copy the `knifechoose.nut` into your `<csgo_directory>\csgo\scripts\vscripts` folder.
 
-On Windows this is usually:
+Installation and Usage
+---------------
 
-    C:\Program Files (x86)\Steam\SteamApps\common\Counter-Strike: Global Offensive\csgo\scripts\vscripts
+The kc.nut needs to be placed in `[your CSGO directory]/csgo/scripts/vscripts`
+    
+To run it ingame start a local server (for example 'Offline with Bots') and write `script_execute kc`
 
-Usage
------
+in your console. Then you need to write
 
-Type `script_execute knifechoose` in the console and follow instructions.
+    script knifeSetup()
 
-For further instructions read the file itself. It can be opened with any text editor (examples: Notepad++, Notepad, Akelpad etc.).
+(it will also tell you that in the console). Then you can choose your knife with writing 
 
-Detailed description
---------------------
+    kc_[knifename]
 
-The script allows you to use any standard knives models. The script is server-side so you can only use it in single-player or in private matches with friends. It requires sv_cheats(although it turns it on by itself) so it isn't meant for community servers. Also the script is working only for the round it was activated(at least till I find a way to avoid it :c).
+in your console. For example:
 
-There's an incompatibility problem with nadetraining.nut script on their side. I have tried contacting them, still waiting for an answer.
+    kc_karambit
 
-Originally I made it for me and my friends/team for our team trainings, but later on decided to share it with people. I hope you enjoy! And don't forget to write your opinion in comments.
+When a new round starts the Knifes get resetted so you need to write  
+    
+    script knifeSetup()
+    
+and the knifename again. I suggest binding that to a key. (I will make bind feature and an ingame menu in the future). To do so write:
+    
+     bind "[key]" "script knifeSetup(); kc_[knifename]"
+    
+This Fork
+-----------------
 
-Links
------
+In this fork I plan to add some features like an little menu, and an AutoBind feature that makes it more convenient to give you the knife at every round start. It's most likely wont change core features or fix major bugs unless they are easy to implement but rather adds some Workarounds, remove clutter and add convenience.
 
-[Gamebanana](http://gamebanana.com/gamefiles/4107)
+Things I already did:
 
-Video
------
-
-<<a href="http://www.youtube.com/watch?feature=player_embedded&v=iy13ZF4DDP4
-" target="_blank"><img src="http://img.youtube.com/vi/iy13ZF4DDP4/0.jpg" 
-alt="Example of using Knife Chooser Script 2.0 "Automation Update!" " width="240" height="180" border="10" /></a>
+* Removed sv_cheats 1 as its not needed anymore
+    
+    
