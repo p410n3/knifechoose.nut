@@ -53,7 +53,7 @@ function knifeSetup()
 	SendToConsole( @"alias kc_bowie script bowie()");
 	SendToConsole( @"alias kc_reset script knifeReset()");
 	
-	SendToConsole( @"sv_cheats 1" );
+	//SendToConsole( @"sv_cheats 1" );
 
 	if (!Entities.FindByName(null, "knifeTimer"))
 	{
