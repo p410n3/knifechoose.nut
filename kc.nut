@@ -23,8 +23,11 @@
  * Also the butterfly knife's very buggy, even unusable, but there's nothing I can do about it, at least yet.
  */
 
+//Current script's version. Used in messages, so it is not hard-coded.
 kc_version			 <- "v2.3-beta2";
 
+//Variables that represent every knife's status(activated or not).
+//More than 1 var should not be enabled at the same time!
 kc_falchion			<- false;
 kc_flip 				<- true;
 kc_gut 					<- false;
@@ -36,7 +39,7 @@ kc_daggers 			<- false;
 kc_bowie 				<- false;
 kc_butterfly		<- false;
 
-
+//Displays messages on first startup both to chat and console.
 function knifeWelcomeMessage()
 {
 	ScriptPrintMessageChatAll("[KC] Firstperson Knife Model Changer " + kc_version + " loaded. Check your admin console!");
@@ -52,7 +55,7 @@ function knifeWelcomeMessage()
 	printl("[KC]			You may take a look on the github repo's discription for details");
 }
 
-
+//
 function knifeSetup()
 {
 	ScriptPrintMessageChatAll("[KC] Script loaded for this round!");
@@ -81,18 +84,19 @@ function knifeSetup()
 	}
 
 	EntFire("knifeTimer", "addoutput", "refiretime 0.05");
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	EntFire("knifeTimer", "addoutput", "UseRandomTime 0");
 	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeSet()");
 
 }
 
 //---------------------------------------------------------------------
-SendToConsole("bind home \"script knifeSetup()\"");
+//These 3 commands launch on script execute
+SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreate logic_timer
 knifeWelcomeMessage();
 knifeSetup();
 
-
+//Debug menu. Can be seen by typing "script knifeDebug()" in console
 function knifeDebug()
 {
 	printl( @"kc_butterfly	= " + kc_butterfly);
@@ -106,6 +110,8 @@ function knifeDebug()
 	printl( @"kc_daggers	= " + kc_daggers);
 	printl( @"kc_bowie	= " + kc_bowie);
 }
+
+//Every function below enables its knife-status var and disables others + shows "xxx knife choosen" message
 
 function m9()
 {
@@ -121,7 +127,7 @@ function m9()
 
 	kc_m9 = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] M9 Bayonet equiped.");
 	printl( @"[KC] M9 Bayonet equiped.");
 }
@@ -140,7 +146,7 @@ function flip()
 
 	kc_flip = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Flip Knife equiped.");
 	printl( @"[KC] Flip Knife equiped.");
 }
@@ -159,7 +165,7 @@ function bayonet()
 
 	kc_bayonet = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Bayonet equiped.");
 	printl( @"[KC] Bayonet equiped.");
 }
@@ -178,7 +184,7 @@ function butterfly()
 
 	kc_butterfly = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Butterfly Knife equiped. (Buggy!)");
 	printl( @"[KC] Butterfly Knife equiped. (Buggy!)");
 }
@@ -197,7 +203,7 @@ function falchion()
 
 	kc_falchion = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Falchion Knife equiped.");
 	printl( @"[KC] Falchion Knife equiped.");
 }
@@ -216,7 +222,7 @@ function gut()
 
 	kc_gut = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Gut Knife equiped.");
 	printl( @"[KC] Gut Knife equiped.");
 }
@@ -235,7 +241,7 @@ function huntsman()
 
 	kc_huntsman = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Huntsman Knife equiped.");
 	printl( @"[KC] Huntsman Knife equiped.");
 }
@@ -254,7 +260,7 @@ function karambit()
 
 	kc_karambit = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Karambit equiped.");
 	printl( @"[KC] Karambit equiped.");
 }
@@ -273,7 +279,7 @@ function daggers()
 
 	kc_daggers = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Shadow Daggers equiped.");
 	printl( @"[KC] Shadow Daggers equiped.");
 }
@@ -292,11 +298,12 @@ function bowie()
 
 	kc_bowie = true;
 
-	EntFire("knifeTimer", "enable");
+	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Bowie Knife equiped.");
 	printl( @"[KC] Bowie Knife equiped.");
 }
 
+//Sets all knife-status vars to false
 function knifeReset()
 {
 	kc_butterfly	= false;
@@ -315,6 +322,7 @@ function knifeReset()
 	printl( @"[KC] Standart Knife equiped.");
 }
 
+//Runs on every logic_timer call, checks whcih knife-status var is true and changes all found default knives models
 function knifeSet()
 {
 		if(kc_bayonet)
