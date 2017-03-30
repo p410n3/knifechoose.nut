@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.3-beta1
+/* knifechoose.nut v2.3-beta2
  * Firstperson Knife Model Changer
  * by Gray
  * nadetraining.nut by S0lll0s, Bidj and Rurre is used as a base of the script
@@ -15,7 +15,7 @@
  * Also the butterfly knife's very buggy, even unusable, but there's nothing I can do about it, at least yet.
  */
 
-kc_version <- "v2.3-beta1";
+kc_version <- "v2.3-beta2";
 
 v_falchion		<- false;
 v_flip 			<- true;
@@ -28,34 +28,20 @@ v_daggers 		<- false;
 v_bowie 		<- false;
 v_butterfly		<- false;
 
-SendToConsole("bind home \"script knifeSetup()\"");
 
-
-ScriptPrintMessageChatAll("[KC] Firstperson Knife Model Changer " + kc_version + " loaded. Check your admin console!");
-printl("[KC] knifechoose.nut");
-printl("[KC] Firstperson Knife Model Changer " + kc_version);
-printl("[KC] by Gray (+some edits by PalOne), site: https://github.com/serkas001/knifechoose.nut");
-printl("[KC] Usage:");
-printl("[KC] Press 'INS' to switch between knifes or");
-printl("[KC] Type the knife's name in your console to force-set it:");
-printl("[KC] 	 kc_<m9, flip, bayonet, butterfly, falchion, gut, huntsman, karambit, daggers, bowie>");
-printl("[KC] Example: kc_daggers");
-printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script")
-printl("[KC]			You may take a look on the github repo's discription for details");
-
-
-function knifeDebug()
+function knifeWelcomeMessage()
 {
-	printl( @"v_butterfly	= " + v_butterfly);
-	printl( @"v_falchion	= " + v_falchion);
-	printl( @"v_flip	= " + v_flip);
-	printl( @"v_gut	= " + v_gut);
-	printl( @"v_huntsman	= " + v_huntsman);
-	printl( @"v_karambit	= " + v_karambit);
-	printl( @"v_m9	= " + v_m9);
-	printl( @"v_bayonet	= " + v_bayonet);
-	printl( @"v_daggers	= " + v_daggers);
-	printl( @"v_bowie	= " + v_bowie);
+	ScriptPrintMessageChatAll("[KC] Firstperson Knife Model Changer " + kc_version + " loaded. Check your admin console!");
+	printl("[KC] knifechoose.nut");
+	printl("[KC] Firstperson Knife Model Changer " + kc_version);
+	printl("[KC] by Gray (+some edits by PalOne), site: https://github.com/serkas001/knifechoose.nut");
+	printl("[KC] Usage:");
+	printl("[KC] Press 'INS' to switch between knifes or");
+	printl("[KC] Type the knife's name in your console to force-set it:");
+	printl("[KC] 	 kc_<m9, flip, bayonet, butterfly, falchion, gut, huntsman, karambit, daggers, bowie>");
+	printl("[KC] Example: kc_daggers");
+	printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script")
+	printl("[KC]			You may take a look on the github repo's discription for details");
 }
 
 
@@ -91,6 +77,26 @@ function knifeSetup()
 	EntFire("knifeTimer", "addoutput", "UseRandomTime 0");
 	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeSet()");
 
+}
+
+//---------------------------------------------------------------------
+SendToConsole("bind home \"script knifeSetup()\"");
+knifeWelcomeMessage();
+knifeSetup();
+
+
+function knifeDebug()
+{
+	printl( @"v_butterfly	= " + v_butterfly);
+	printl( @"v_falchion	= " + v_falchion);
+	printl( @"v_flip	= " + v_flip);
+	printl( @"v_gut	= " + v_gut);
+	printl( @"v_huntsman	= " + v_huntsman);
+	printl( @"v_karambit	= " + v_karambit);
+	printl( @"v_m9	= " + v_m9);
+	printl( @"v_bayonet	= " + v_bayonet);
+	printl( @"v_daggers	= " + v_daggers);
+	printl( @"v_bowie	= " + v_bowie);
 }
 
 function m9()
