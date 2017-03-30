@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.2-beta
+/* knifechoose.nut v2.3-beta1
  * Firstperson Knife Model Changer
  * by Gray
  * nadetraining.nut by S0lll0s, Bidj and Rurre is used as a base of the script
@@ -15,9 +15,10 @@
  * Also the butterfly knife's very buggy, even unusable, but there's nothing I can do about it, at least yet.
  */
 
-v_butterfly		<- false;
+kc_version <- "v2.3-beta1";
+
 v_falchion		<- false;
-v_flip 			<- false;
+v_flip 			<- true;
 v_gut 			<- false;
 v_huntsman 		<- false;
 v_karambit 		<- false;
@@ -25,144 +26,22 @@ v_m9 			<- false;
 v_bayonet 		<- false;
 v_daggers 		<- false;
 v_bowie 		<- false;
+v_butterfly		<- false;
 
-SendToConsole( "alias setup script knifeSetup()");
-SendToConsole( "bind end setup");
+SendToConsole("bind home \"script knifeSetup()\"");
 
-//ScreenMessage
-ScriptPrintMessageChatAll ("Original Script by Gray. Some features added by PalOne");
-ScriptPrintMessageChatAll ("-------------------------------------------------------------------");
-ScriptPrintMessageChatAll ("Look at the Keys above your Arrow Keys:");
-ScriptPrintMessageChatAll ("Press INS to choose a Knife");
-ScriptPrintMessageChatAll ("Press DEL to equip a Knife");
-ScriptPrintMessageChatAll ("Press END at every roundstart to setup the script again.");
-ScriptPrintMessageChatAll ("-------------------------------------------------------------------");
 
-//Reminder
-ScriptPrintMessageCenterAll ("REMEBER TO PRESS END AT EVERY ROUNDSTART!");
-
-//Instant Setup
-SendToConsole( "script knifeSetup()");
-
-function knifeSetup()
-{
-	ScriptPrintMessageChatAll( "Script loaded for this Round!");
-	//Regular Knife Binds
-
-	SendToConsole( @"alias kc_m9 script m9()");
-	SendToConsole( @"alias kc_flip script flip()");
-	SendToConsole( @"alias kc_bayonet script bayonet()");
-	SendToConsole( @"alias kc_butterfly script butterfly()");
-	SendToConsole( @"alias kc_falchion script falchion()");
-	SendToConsole( @"alias kc_gut script gut()");
-	SendToConsole( @"alias kc_huntsman script huntsman()");
-	SendToConsole( @"alias kc_karambit script karambit()");
-	SendToConsole( @"alias kc_daggers script daggers()");
-	SendToConsole( @"alias kc_bowie script bowie()");
-	SendToConsole( @"alias kc_reset script knifeReset()");
-
-	SendToConsole( @"alias ch_m9 script ch_m9()");
-	SendToConsole( @"alias ch_flip script ch_flip()");
-	SendToConsole( @"alias ch_bayonet script ch_bayonet()");
-	SendToConsole( @"alias ch_butterfly script ch_butterfly()");
-	SendToConsole( @"alias ch_falchion script ch_falchion()");
-	SendToConsole( @"alias ch_gut script ch_gut()");
-	SendToConsole( @"alias ch_huntsman script ch_huntsman()");
-	SendToConsole( @"alias ch_karambit script ch_karambit()");
-	SendToConsole( @"alias ch_daggers script ch_daggers()");
-	SendToConsole( @"alias ch_bowie script ch_bowie()");
-
-	//Knife change
-	SendToConsole( "bind ins ch_m9");
-
-	//Not neccesary anymore
-	//SendToConsole( @"sv_cheats 1" );
-
-	if (!Entities.FindByName(null, "knifeTimer"))
-	{
-		local v_knifeTimer = null;
-		v_knifeTimer = Entities.CreateByClassname("logic_timer");
-		EntFireByHandle(v_knifeTimer, "addoutput", "targetname knifeTimer", 0.0, null, null);
-	}
-
-	EntFire("knifeTimer", "addoutput", "refiretime 0.05");
-	EntFire("knifeTimer", "disable");
-	EntFire("knifeTimer", "addoutput", "startdisabled 1");
-	EntFire("knifeTimer", "addoutput", "UseRandomTime 0"1);
-	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeSet()");
-
-}
-
-function ch_m9()
-{
-	ScriptPrintMessageChatAll ("M9 chosen. Press DEL to equip it");
-	SendToConsole("bind del kc_m9");
-	SendToConsole( "bind ins ch_flip");
-}
-
-function ch_flip()
-{
-	ScriptPrintMessageChatAll ("Flip chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_flip");
-	SendToConsole( "bind ins ch_bayonet");
-}
-
-function ch_bayonet()
-{
-	ScriptPrintMessageChatAll ("Bayonet chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_bayonet");
-	SendToConsole( "bind ins ch_butterfly");
-}
-
-function ch_butterfly()
-{
-	ScriptPrintMessageChatAll ("Butterfly chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_butterfly");
-	SendToConsole( "bind ins ch_falchion");
-}
-
-function ch_falchion()
-{
-	ScriptPrintMessageChatAll ("Falchion chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_falchion");
-	SendToConsole( "bind ins ch_gut");
-}
-
-function ch_gut()
-{
-	ScriptPrintMessageChatAll ("Gut chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_gut");
-	SendToConsole( "bind ins ch_huntsman");
-}
-
-function ch_huntsman()
-{
-	ScriptPrintMessageChatAll ("Huntsman chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_huntsman");
-	SendToConsole( "bind ins ch_karambit");
-}
-
-function ch_karambit()
-{
-	ScriptPrintMessageChatAll ("Karambit chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_karambit");
-	SendToConsole( "bind ins ch_daggers");
-}
-
-function ch_daggers()
-{
-	ScriptPrintMessageChatAll ("Daggers chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_daggers");
-	SendToConsole( "bind ins ch_bowie");
-}
-
-function ch_bowie()
-{
-	ScriptPrintMessageChatAll ("Bowies chosen. Press DEL to equip it");
-	SendToConsole( "bind del kc_bowie");
-	SendToConsole( "bind ins ch_m9");
-}
-
+ScriptPrintMessageChatAll("[KC] Firstperson Knife Model Changer " + kc_version + " loaded. Check your admin console!");
+printl("[KC] knifechoose.nut");
+printl("[KC] Firstperson Knife Model Changer " + kc_version);
+printl("[KC] by Gray (+some edits by PalOne), site: https://github.com/serkas001/knifechoose.nut");
+printl("[KC] Usage:");
+printl("[KC] Press 'INS' to switch between knifes or");
+printl("[KC] Type the knife's name in your console to force-set it:");
+printl("[KC] 	 kc_<m9, flip, bayonet, butterfly, falchion, gut, huntsman, karambit, daggers, bowie>");
+printl("[KC] Example: kc_daggers");
+printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script")
+printl("[KC]			You may take a look on the github repo's discription for details");
 
 
 function knifeDebug()
@@ -177,6 +56,41 @@ function knifeDebug()
 	printl( @"v_bayonet	= " + v_bayonet);
 	printl( @"v_daggers	= " + v_daggers);
 	printl( @"v_bowie	= " + v_bowie);
+}
+
+
+function knifeSetup()
+{
+	ScriptPrintMessageChatAll("[KC] Script loaded for this round!");
+
+	SendToConsole( @"alias kc_m9 script m9()");
+	SendToConsole( @"alias kc_flip script flip()");
+	SendToConsole( @"alias kc_bayonet script bayonet()");
+	SendToConsole( @"alias kc_butterfly script butterfly()");
+	SendToConsole( @"alias kc_falchion script falchion()");
+	SendToConsole( @"alias kc_gut script gut()");
+	SendToConsole( @"alias kc_huntsman script huntsman()");
+	SendToConsole( @"alias kc_karambit script karambit()");
+	SendToConsole( @"alias kc_daggers script daggers()");
+	SendToConsole( @"alias kc_bowie script bowie()");
+	SendToConsole( @"alias kc_reset script knifeReset()");
+
+
+	//Not neccesary anymore
+	//SendToConsole( @"sv_cheats 1" );
+
+	if (!Entities.FindByName(null, "knifeTimer"))
+	{
+		local v_knifeTimer = null;
+		v_knifeTimer = Entities.CreateByClassname("logic_timer");
+		EntFireByHandle(v_knifeTimer, "addoutput", "targetname knifeTimer", 0.0, null, null);
+	}
+
+	EntFire("knifeTimer", "addoutput", "refiretime 0.05");
+	EntFire("knifeTimer", "enable");
+	EntFire("knifeTimer", "addoutput", "UseRandomTime 0");
+	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeSet()");
+
 }
 
 function m9()
@@ -382,7 +296,7 @@ function knifeReset()
 	v_karambit = false;
 	v_bowie = false;
 
-	EntFire("knifeTimer", "disable");
+	//EntFire("knifeTimer", "disable");
 	ScriptPrintMessageChatAll( @"[KC] Standart Knife equiped.");
 	printl( @"[KC] Standart Knife equiped.");
 }
