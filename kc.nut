@@ -28,9 +28,9 @@ kc_version			 <- "v2.3-beta2";
 
 //Variables that represent every knife's status(activated or not).
 //More than 1 var should not be enabled at the same time!
-kc_falchion			<- false;
 kc_flip 				<- true;
 kc_gut 					<- false;
+kc_falchion			<- false;
 kc_huntsman 		<- false;
 kc_karambit 		<- false;
 kc_m9 					<- false;
@@ -93,6 +93,7 @@ function knifeSetup()
 //---------------------------------------------------------------------
 //These 3 commands launch on script execute
 SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreate logic_timer
+//TODO add a function to scroll through knives and a bind for it
 knifeWelcomeMessage();
 knifeSetup();
 
@@ -113,25 +114,6 @@ function knifeDebug()
 
 //Every function below enables its knife-status var and disables others + shows "xxx knife choosen" message
 
-function m9()
-{
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
-
-	kc_m9 = true;
-
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] M9 Bayonet equiped.");
-	printl( @"[KC] M9 Bayonet equiped.");
-}
-
 function flip()
 {
 	kc_butterfly	= false;
@@ -151,30 +133,11 @@ function flip()
 	printl( @"[KC] Flip Knife equiped.");
 }
 
-function bayonet()
+function gut()
 {
 	kc_butterfly	= false;
 	kc_falchion = false;
 	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_daggers = false;
-	kc_bowie = false;
-
-	kc_bayonet = true;
-
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Bayonet equiped.");
-	printl( @"[KC] Bayonet equiped.");
-}
-
-function butterfly()
-{
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
 	kc_huntsman = false;
 	kc_karambit = false;
 	kc_m9 = false;
@@ -182,11 +145,11 @@ function butterfly()
 	kc_daggers = false;
 	kc_bowie = false;
 
-	kc_butterfly = true;
+	kc_gut = true;
 
 	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Butterfly Knife equiped. (Buggy!)");
-	printl( @"[KC] Butterfly Knife equiped. (Buggy!)");
+	ScriptPrintMessageChatAll( @"[KC] Gut Knife equiped.");
+	printl( @"[KC] Gut Knife equiped.");
 }
 
 function falchion()
@@ -206,25 +169,6 @@ function falchion()
 	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Falchion Knife equiped.");
 	printl( @"[KC] Falchion Knife equiped.");
-}
-
-function gut()
-{
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
-
-	kc_gut = true;
-
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Gut Knife equiped.");
-	printl( @"[KC] Gut Knife equiped.");
 }
 
 function huntsman()
@@ -265,6 +209,44 @@ function karambit()
 	printl( @"[KC] Karambit equiped.");
 }
 
+function m9()
+{
+	kc_butterfly	= false;
+	kc_falchion = false;
+	kc_flip = false;
+	kc_gut = false;
+	kc_huntsman = false;
+	kc_karambit = false;
+	kc_bayonet = false;
+	kc_daggers = false;
+	kc_bowie = false;
+
+	kc_m9 = true;
+
+	//EntFire("knifeTimer", "enable");
+	ScriptPrintMessageChatAll( @"[KC] M9 Bayonet equiped.");
+	printl( @"[KC] M9 Bayonet equiped.");
+}
+
+function bayonet()
+{
+	kc_butterfly	= false;
+	kc_falchion = false;
+	kc_flip = false;
+	kc_gut = false;
+	kc_huntsman = false;
+	kc_karambit = false;
+	kc_m9 = false;
+	kc_daggers = false;
+	kc_bowie = false;
+
+	kc_bayonet = true;
+
+	//EntFire("knifeTimer", "enable");
+	ScriptPrintMessageChatAll( @"[KC] Bayonet equiped.");
+	printl( @"[KC] Bayonet equiped.");
+}
+
 function daggers()
 {
 	kc_butterfly	= false;
@@ -301,6 +283,25 @@ function bowie()
 	//EntFire("knifeTimer", "enable");
 	ScriptPrintMessageChatAll( @"[KC] Bowie Knife equiped.");
 	printl( @"[KC] Bowie Knife equiped.");
+}
+
+function butterfly()
+{
+	kc_falchion = false;
+	kc_flip = false;
+	kc_gut = false;
+	kc_huntsman = false;
+	kc_karambit = false;
+	kc_m9 = false;
+	kc_bayonet = false;
+	kc_daggers = false;
+	kc_bowie = false;
+
+	kc_butterfly = true;
+
+	//EntFire("knifeTimer", "enable");
+	ScriptPrintMessageChatAll( @"[KC] Butterfly Knife equiped. (Buggy!)");
+	printl( @"[KC] Butterfly Knife equiped. (Buggy!)");
 }
 
 //Sets all knife-status vars to false
