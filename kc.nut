@@ -1,12 +1,12 @@
-/* knifechoose.nut v2.2
+/* knifechoose.nut v2.2-beta
  * Firstperson Knife Model Changer
  * by Gray
  * nadetraining.nut by S0lll0s, Bidj and Rurre is used as a base of the script
  *
- * goes into /csgo/scripts/vscripts/knifechoose.nut
+ * goes into /csgo/scripts/vscripts/kc.nut
  *
  * USAGE, in console:
- *  	script_execute knifechoose
+ *  	script_execute kc
  *	script knifeSetup()
  * Write the knife's name in your console
  * 	 kc_<m9, flip, bayonet, butterfly, falchion, gut, huntsman, karambit, daggers, bowie>
@@ -30,7 +30,7 @@ SendToConsole( "alias setup script knifeSetup()");
 SendToConsole( "bind end setup");
 
 //ScreenMessage
-ScriptPrintMessageChatAll ("Original Script by Gray; Modded by PalOne");
+ScriptPrintMessageChatAll ("Original Script by Gray. Some features added by PalOne");
 ScriptPrintMessageChatAll ("-------------------------------------------------------------------");
 ScriptPrintMessageChatAll ("Look at the Keys above your Arrow Keys:");
 ScriptPrintMessageChatAll ("Press INS to choose a Knife");
@@ -45,10 +45,10 @@ ScriptPrintMessageCenterAll ("REMEBER TO PRESS END AT EVERY ROUNDSTART!");
 SendToConsole( "script knifeSetup()");
 
 function knifeSetup()
-{	
+{
 	ScriptPrintMessageChatAll( "Script loaded for this Round!");
 	//Regular Knife Binds
-	
+
 	SendToConsole( @"alias kc_m9 script m9()");
 	SendToConsole( @"alias kc_flip script flip()");
 	SendToConsole( @"alias kc_bayonet script bayonet()");
@@ -60,7 +60,7 @@ function knifeSetup()
 	SendToConsole( @"alias kc_daggers script daggers()");
 	SendToConsole( @"alias kc_bowie script bowie()");
 	SendToConsole( @"alias kc_reset script knifeReset()");
-	
+
 	SendToConsole( @"alias ch_m9 script ch_m9()");
 	SendToConsole( @"alias ch_flip script ch_flip()");
 	SendToConsole( @"alias ch_bayonet script ch_bayonet()");
@@ -71,10 +71,10 @@ function knifeSetup()
 	SendToConsole( @"alias ch_karambit script ch_karambit()");
 	SendToConsole( @"alias ch_daggers script ch_daggers()");
 	SendToConsole( @"alias ch_bowie script ch_bowie()");
-	
+
 	//Knife change
 	SendToConsole( "bind ins ch_m9");
-	
+
 	//Not neccesary anymore
 	//SendToConsole( @"sv_cheats 1" );
 
@@ -162,7 +162,7 @@ function ch_bowie()
 	SendToConsole( "bind del kc_bowie");
 	SendToConsole( "bind ins ch_m9");
 }
-	
+
 
 
 function knifeDebug()
