@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.3-beta3
+/* knifechoose.nut v2.3-beta4
  * Firstperson Knife Model Changer
  * by Gray
  * github: https://github.com/serkas001/knifechoose.nut/
@@ -24,23 +24,25 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-kc_version			 <- "v2.3-beta3";
+kc_version			 <- "v2.3-beta4";
 
 //Variables that represent every knife's status(activated or not).
 //More than 1 var should not be enabled at the same time!
 //Flip knife is enabled by default
 kc_knives <- {
-	flip 			= true,
-	gut 			= false,
-	falchion	= false,
-	huntsman 	= false,
-	karambit 	= false,
-	m9 				= false,
-	bayonet 	= false,
-	daggers 	= false,
-	bowie 		= false,
-	butterfly	= false
-}
+	flip 			= true,				//1
+	gut 			= false,			//2
+	falchion	= false,			//3
+	huntsman 	= false,			//4
+	karambit 	= false,			//5
+	m9 				= false,			//6
+	bayonet 	= false,			//7
+	daggers 	= false,			//8
+	bowie 		= false,			//9
+	butterfly	= false				//10
+}													//0 - no knife selected = default knife
+
+kc_current_knife <- 1;
 
 //Displays messages on first startup both to chat and console.
 function knifeWelcomeMessage()
@@ -95,8 +97,8 @@ function knifeSetup()
 
 //---------------------------------------------------------------------
 //These 3 commands launch on script execute
-SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreate logic_timer
-//TODO add a function to scroll through knives and a bind for it
+SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreating logic_timer
+SendToConsole("bind ins \"script knifeSelect()\"");		//Binds ins to selecting knife
 knifeWelcomeMessage();
 knifeSetup();
 
@@ -115,6 +117,24 @@ function knifeDebug()
 	printl("kc_knives[\"butterfly\"]	= " + kc_knives["butterfly"]);
 }
 
+function knifeSelect()
+{
+	switch(kc_current_knife)
+	{
+		case 0: flip(); break;					//current knife = default -> change to flip
+		case 1: gut(); break;						//current knife = flip -> change to gut
+		case 2: falchion(); break;			//current knife = gut -> change to falchion
+		case 3: huntsman(); break;			//current knife = falchion -> change to huntsman
+		case 4: karambit(); break;			//current knife = huntsman -> change to karambit
+		case 5: m9(); break;						//current knife = karambit -> change to m9
+		case 6: bayonet(); break;				//current knife = m9 -> change to bayonet
+		case 7: daggers(); break;				//current knife = bayonet -> change to daggers
+		case 8: bowie(); break;					//current knife = daggers -> change to bowie
+		//case 9: butterfly(); break;			//current knife = bowie -> change to butterfly
+		default: knifeReset(); break;		//current knife = any other knife -> change to default
+	}
+}
+
 //Every function below enables its knife-status var and disables others + shows "xxx knife choosen" message
 
 function flip()
@@ -130,6 +150,8 @@ function flip()
 	kc_knives["daggers"] = false;
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
+
+	kc_current_knife = 1;
 
 	ScriptPrintMessageChatAll("[KC] Flip Knife equiped.");
 	printl("[KC] Flip Knife equiped.");
@@ -150,6 +172,7 @@ function gut()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 2;
 
 	ScriptPrintMessageChatAll("[KC] Gut Knife equiped.");
 	printl("[KC] Gut Knife equiped.");
@@ -170,6 +193,7 @@ function falchion()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 3;
 
 	ScriptPrintMessageChatAll("[KC] Falchion Knife equiped.");
 	printl("[KC] Falchion Knife equiped.");
@@ -190,6 +214,7 @@ function huntsman()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 4;
 
 	ScriptPrintMessageChatAll("[KC] Huntsman Knife equiped.");
 	printl("[KC] Huntsman Knife equiped.");
@@ -210,6 +235,7 @@ function karambit()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 5;
 
 	ScriptPrintMessageChatAll("[KC] Karambit equiped.");
 	printl("[KC] Karambit equiped.");
@@ -230,6 +256,7 @@ function m9()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 6;
 
 	ScriptPrintMessageChatAll("[KC] M9 Bayonet equiped.");
 	printl("[KC] M9 Bayonet equiped.");
@@ -250,6 +277,7 @@ function bayonet()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 7;
 
 	ScriptPrintMessageChatAll("[KC] Bayonet equiped.");
 	printl("[KC] Bayonet equiped.");
@@ -270,6 +298,7 @@ function daggers()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 8;
 
 	ScriptPrintMessageChatAll("[KC] Shadow Daggers equiped.");
 	printl("[KC] Shadow Daggers equiped.");
@@ -290,6 +319,7 @@ function bowie()
 
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 9;
 
 	ScriptPrintMessageChatAll("[KC] Bowie Knife equiped.");
 	printl("[KC] Bowie Knife equiped.");
@@ -309,6 +339,7 @@ function butterfly()
 
 	kc_knives["butterfly"] = true;
 
+	kc_current_knife = 10;
 
 	ScriptPrintMessageChatAll("[KC] Butterfly Knife equiped. (Buggy!)");
 	printl("[KC] Butterfly Knife equiped. (Buggy!)");
@@ -328,6 +359,7 @@ function knifeReset()
 	kc_knives["bowie"] = false;
 	kc_knives["butterfly"] = false;
 
+	kc_current_knife = 0;
 
 	ScriptPrintMessageChatAll("[KC] Standart Knife equiped.");
 	printl("[KC] Standart Knife equiped.");
