@@ -62,26 +62,26 @@ function knifeWelcomeMessage()
 	printl("[KC]			You may take a look on the github repo's discription for details");
 }
 
+//Creates aliases for every knife available
+function knifeAliases()
+{
+	SendToConsole("alias kc_flip \"script knifeSet(1)\"");
+	SendToConsole("alias kc_gut \"script knifeSet(2)\"");
+	SendToConsole("alias kc_falchion \"script knifeSet(3)\"");
+	SendToConsole("alias kc_huntsman \"script knifeSet(4)\"");
+	SendToConsole("alias kc_karambit \"script knifeSet(5)\"");
+	SendToConsole("alias kc_m9 \"script knifeSet(6)\"");
+	SendToConsole("alias kc_bayonet \"script knifeSet(7)\"");
+	SendToConsole("alias kc_daggers \"script knifeSet(8)\"");
+	SendToConsole("alias kc_bowie \"script knifeSet(9)\"");
+	SendToConsole("alias kc_butterfly \"script knifeSet(10)\"");
+	SendToConsole("alias kc_default \"script knifeSet(0)\"");
+}
+
 //Creates a new logic_timer entity(if there is not one)
 function knifeSetup()
 {
 	ScriptPrintMessageChatAll("[KC] Script loaded for this round!");
-
-	SendToConsole("alias kc_flip script flip()");
-	SendToConsole("alias kc_gut script gut()");
-	SendToConsole("alias kc_falchion script falchion()");
-	SendToConsole("alias kc_huntsman script huntsman()");
-	SendToConsole("alias kc_karambit script karambit()");
-	SendToConsole("alias kc_m9 script m9()");
-	SendToConsole("alias kc_bayonet script bayonet()");
-	SendToConsole("alias kc_daggers script daggers()");
-	SendToConsole("alias kc_bowie script bowie()");
-	SendToConsole("alias kc_butterfly script butterfly()");
-	SendToConsole("alias kc_reset script knifeReset()");
-
-
-	//Not neccesary anymore
-	//SendToConsole("sv_cheats 1" );
 
 	if (!Entities.FindByName(null, "knifeTimer"))
 	{
@@ -93,7 +93,7 @@ function knifeSetup()
 	EntFire("knifeTimer", "enable");
 	EntFire("knifeTimer", "addoutput", "refiretime 0.05");
 	EntFire("knifeTimer", "addoutput", "UseRandomTime 0");
-	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeSet()");
+	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeModelSet()");
 
 }
 
@@ -102,6 +102,7 @@ function knifeSetup()
 SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreating logic_timer
 SendToConsole("bind ins \"script knifeSelect()\"");		//Binds ins to selecting knife
 knifeWelcomeMessage();
+knifeAliases();
 knifeSetup();
 
 //Debug menu. Can be seen by typing "script knifeDebug()" in console
