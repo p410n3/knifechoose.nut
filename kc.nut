@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.3-beta2
+/* knifechoose.nut v2.3-beta3
  * Firstperson Knife Model Changer
  * by Gray
  * github: https://github.com/serkas001/knifechoose.nut/
@@ -24,20 +24,23 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-kc_version			 <- "v2.3-beta2";
+kc_version			 <- "v2.3-beta3";
 
 //Variables that represent every knife's status(activated or not).
 //More than 1 var should not be enabled at the same time!
-kc_flip 				<- true;
-kc_gut 					<- false;
-kc_falchion			<- false;
-kc_huntsman 		<- false;
-kc_karambit 		<- false;
-kc_m9 					<- false;
-kc_bayonet 			<- false;
-kc_daggers 			<- false;
-kc_bowie 				<- false;
-kc_butterfly		<- false;
+//Flip knife is enabled by default
+kc_knives <- {
+	flip 			= true,
+	gut 			= false,
+	falchion	= false,
+	huntsman 	= false,
+	karambit 	= false,
+	m9 				= false,
+	bayonet 	= false,
+	daggers 	= false,
+	bowie 		= false,
+	butterfly	= false
+}
 
 //Displays messages on first startup both to chat and console.
 function knifeWelcomeMessage()
@@ -45,7 +48,7 @@ function knifeWelcomeMessage()
 	ScriptPrintMessageChatAll("[KC] Firstperson Knife Model Changer " + kc_version + " loaded. Check your admin console!");
 	printl("[KC] knifechoose.nut");
 	printl("[KC] Firstperson Knife Model Changer " + kc_version);
-	printl("[KC] by Gray (+some edits by PalOne), site: https://github.com/serkas001/knifechoose.nut");
+	printl("[KC] by Gray and PalOne, site: https://github.com/serkas001/knifechoose.nut");
 	printl("[KC] Usage:");
 	printl("[KC] Press 'INS' to switch between knifes or");
 	printl("[KC] Type the knife's name in your console to force-set it:");
@@ -60,21 +63,21 @@ function knifeSetup()
 {
 	ScriptPrintMessageChatAll("[KC] Script loaded for this round!");
 
-	SendToConsole( @"alias kc_m9 script m9()");
-	SendToConsole( @"alias kc_flip script flip()");
-	SendToConsole( @"alias kc_bayonet script bayonet()");
-	SendToConsole( @"alias kc_butterfly script butterfly()");
-	SendToConsole( @"alias kc_falchion script falchion()");
-	SendToConsole( @"alias kc_gut script gut()");
-	SendToConsole( @"alias kc_huntsman script huntsman()");
-	SendToConsole( @"alias kc_karambit script karambit()");
-	SendToConsole( @"alias kc_daggers script daggers()");
-	SendToConsole( @"alias kc_bowie script bowie()");
-	SendToConsole( @"alias kc_reset script knifeReset()");
+	SendToConsole("alias kc_flip script flip()");
+	SendToConsole("alias kc_gut script gut()");
+	SendToConsole("alias kc_falchion script falchion()");
+	SendToConsole("alias kc_huntsman script huntsman()");
+	SendToConsole("alias kc_karambit script karambit()");
+	SendToConsole("alias kc_m9 script m9()");
+	SendToConsole("alias kc_bayonet script bayonet()");
+	SendToConsole("alias kc_daggers script daggers()");
+	SendToConsole("alias kc_bowie script bowie()");
+	SendToConsole("alias kc_butterfly script butterfly()");
+	SendToConsole("alias kc_reset script knifeReset()");
 
 
 	//Not neccesary anymore
-	//SendToConsole( @"sv_cheats 1" );
+	//SendToConsole("sv_cheats 1" );
 
 	if (!Entities.FindByName(null, "knifeTimer"))
 	{
@@ -83,8 +86,8 @@ function knifeSetup()
 		EntFireByHandle(v_knifeTimer, "addoutput", "targetname knifeTimer", 0.0, null, null);
 	}
 
+	EntFire("knifeTimer", "enable");
 	EntFire("knifeTimer", "addoutput", "refiretime 0.05");
-	//EntFire("knifeTimer", "enable");
 	EntFire("knifeTimer", "addoutput", "UseRandomTime 0");
 	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeSet()");
 
@@ -100,370 +103,377 @@ knifeSetup();
 //Debug menu. Can be seen by typing "script knifeDebug()" in console
 function knifeDebug()
 {
-	printl( @"kc_butterfly	= " + kc_butterfly);
-	printl( @"kc_falchion	= " + kc_falchion);
-	printl( @"kc_flip	= " + kc_flip);
-	printl( @"kc_gut	= " + kc_gut);
-	printl( @"kc_huntsman	= " + kc_huntsman);
-	printl( @"kc_karambit	= " + kc_karambit);
-	printl( @"kc_m9	= " + kc_m9);
-	printl( @"kc_bayonet	= " + kc_bayonet);
-	printl( @"kc_daggers	= " + kc_daggers);
-	printl( @"kc_bowie	= " + kc_bowie);
+	printl("kc_knives[\"flip\"]	= " + kc_knives["flip"]);
+	printl("kc_knives[\"gut\"]	= " + kc_knives["gut"]);
+	printl("kc_knives[\"falchion\"]	= " + kc_knives["falchion"]);
+	printl("kc_knives[\"huntsman\"]	= " + kc_knives["huntsman"]);
+	printl("kc_knives[\"karambit\"]	= " + kc_knives["karambit"]);
+	printl("kc_knives[\"m9\"]	= " + kc_knives["m9"]);
+	printl("kc_knives[\"bayonet\"]	= " + kc_knives["bayonet"]);
+	printl("kc_knives[\"daggers\"]	= " + kc_knives["daggers"]);
+	printl("kc_knives[\"bowie\"]	= " + kc_knives["bowie"]);
+	printl("kc_knives[\"butterfly\"]	= " + kc_knives["butterfly"]);
 }
 
 //Every function below enables its knife-status var and disables others + shows "xxx knife choosen" message
 
 function flip()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = true;
 
-	kc_flip = true;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Flip Knife equiped.");
-	printl( @"[KC] Flip Knife equiped.");
+	ScriptPrintMessageChatAll("[KC] Flip Knife equiped.");
+	printl("[KC] Flip Knife equiped.");
 }
 
 function gut()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
 
-	kc_gut = true;
+	kc_knives["gut"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Gut Knife equiped.");
-	printl( @"[KC] Gut Knife equiped.");
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Gut Knife equiped.");
+	printl("[KC] Gut Knife equiped.");
 }
 
 function falchion()
 {
-	kc_butterfly	= false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
 
-	kc_falchion = true;
+	kc_knives["falchion"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Falchion Knife equiped.");
-	printl( @"[KC] Falchion Knife equiped.");
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Falchion Knife equiped.");
+	printl("[KC] Falchion Knife equiped.");
 }
 
 function huntsman()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
 
-	kc_huntsman = true;
+	kc_knives["huntsman"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Huntsman Knife equiped.");
-	printl( @"[KC] Huntsman Knife equiped.");
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Huntsman Knife equiped.");
+	printl("[KC] Huntsman Knife equiped.");
 }
 
 function karambit()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
 
-	kc_karambit = true;
+	kc_knives["karambit"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Karambit equiped.");
-	printl( @"[KC] Karambit equiped.");
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Karambit equiped.");
+	printl("[KC] Karambit equiped.");
 }
 
 function m9()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
 
-	kc_m9 = true;
+	kc_knives["m9"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] M9 Bayonet equiped.");
-	printl( @"[KC] M9 Bayonet equiped.");
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] M9 Bayonet equiped.");
+	printl("[KC] M9 Bayonet equiped.");
 }
 
 function bayonet()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
 
-	kc_bayonet = true;
+	kc_knives["bayonet"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Bayonet equiped.");
-	printl( @"[KC] Bayonet equiped.");
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Bayonet equiped.");
+	printl("[KC] Bayonet equiped.");
 }
 
 function daggers()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_karambit = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
 
-	kc_daggers = true;
+	kc_knives["daggers"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Shadow Daggers equiped.");
-	printl( @"[KC] Shadow Daggers equiped.");
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Shadow Daggers equiped.");
+	printl("[KC] Shadow Daggers equiped.");
 }
 
 function bowie()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_karambit = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
 
-	kc_bowie = true;
+	kc_knives["bowie"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Bowie Knife equiped.");
-	printl( @"[KC] Bowie Knife equiped.");
+	kc_knives["butterfly"] = false;
+
+
+	ScriptPrintMessageChatAll("[KC] Bowie Knife equiped.");
+	printl("[KC] Bowie Knife equiped.");
 }
 
 function butterfly()
 {
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_karambit = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
 
-	kc_butterfly = true;
+	kc_knives["butterfly"] = true;
 
-	//EntFire("knifeTimer", "enable");
-	ScriptPrintMessageChatAll( @"[KC] Butterfly Knife equiped. (Buggy!)");
-	printl( @"[KC] Butterfly Knife equiped. (Buggy!)");
+
+	ScriptPrintMessageChatAll("[KC] Butterfly Knife equiped. (Buggy!)");
+	printl("[KC] Butterfly Knife equiped. (Buggy!)");
 }
 
 //Sets all knife-status vars to false
 function knifeReset()
 {
-	kc_butterfly	= false;
-	kc_falchion = false;
-	kc_flip = false;
-	kc_gut = false;
-	kc_huntsman = false;
-	kc_m9 = false;
-	kc_bayonet = false;
-	kc_daggers = false;
-	kc_karambit = false;
-	kc_bowie = false;
+	kc_knives["flip"] = false;
+	kc_knives["gut"] = false;
+	kc_knives["falchion"] = false;
+	kc_knives["huntsman"] = false;
+	kc_knives["karambit"] = false;
+	kc_knives["m9"] = false;
+	kc_knives["bayonet"] = false;
+	kc_knives["daggers"] = false;
+	kc_knives["bowie"] = false;
+	kc_knives["butterfly"] = false;
 
-	//EntFire("knifeTimer", "disable");
-	ScriptPrintMessageChatAll( @"[KC] Standart Knife equiped.");
-	printl( @"[KC] Standart Knife equiped.");
+
+	ScriptPrintMessageChatAll("[KC] Standart Knife equiped.");
+	printl("[KC] Standart Knife equiped.");
 }
 
 //Runs on every logic_timer call, checks whcih knife-status var is true and changes all found default knives models
 function knifeSet()
 {
-		if(kc_bayonet)
+	if (kc_knives["flip"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_bayonet.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_bayonet.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_flip.mdl");
 		}
-		else if (kc_m9)
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_m9_bay.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_m9_bay.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_flip.mdl");
 		}
-		else if (kc_karambit)
+	}
+	if (kc_knives["gut"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_karam.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_karam.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_gut.mdl");
 		}
-		else if (kc_huntsman)
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_tactical.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_tactical.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_gut.mdl");
 		}
-		else if (kc_gut)
+	}
+	if (kc_knives["falchion"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_gut.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_gut.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
 		}
-		else if (kc_flip)
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_flip.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_flip.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
 		}
-		else if (kc_falchion)
+	}
+	if (kc_knives["huntsman"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_tactical.mdl");
 		}
-		else if (kc_butterfly)
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_butterfly.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_butterfly.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_tactical.mdl");
 		}
-		else if (kc_daggers)
+	}
+	if (kc_knives["karambit"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_push.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_push.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_karam.mdl");
 		}
-		else if (kc_bowie)
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 		{
-			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_survival_bowie.mdl");
-			}
-
-			local knife = null;
-			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
-			{
-				knife.SetModel("models/weapons/v_knife_survival_bowie.mdl");
-			}
+			knife.SetModel("models/weapons/v_knife_karam.mdl");
 		}
+	}
+	if (kc_knives["m9"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_m9_bay.mdl");
+		}
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_m9_bay.mdl");
+		}
+	}
+	if(kc_knives["bayonet"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_bayonet.mdl");
+		}
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_bayonet.mdl");
+		}
+	}
+	if (kc_knives["daggers"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_push.mdl");
+		}
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_push.mdl");
+		}
+	}
+	if (kc_knives["bowie"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_survival_bowie.mdl");
+		}
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_survival_bowie.mdl");
+		}
+	}
+	if (kc_knives["butterfly"])
+	{
+		local knife = null;
+		while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_butterfly.mdl");
+		}
+
+		local knife = null;
+		while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+		{
+			knife.SetModel("models/weapons/v_knife_butterfly.mdl");
+		}
+	}
 }
