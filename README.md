@@ -2,7 +2,6 @@ kc.nut
 ---------------
 
 VScript to use almost all knife models on a local server.
-Thanks to Phillip L.(p410n3) for forking the project and adding some awesome functions to the script. I really hope we will work together to improve it even more.
 
 Installation and Usage
 ---------------
@@ -13,21 +12,29 @@ To run it in-game: start a local server (for example 'Offline with Bots') and wr
 in your console. Then you can:
 
 * Press INS (or Insert) on your keyboard to scroll through every possible knife
-* Press HOME (or Home) at every roundstart to actually load the script again. (It resets every round)
+* Press HOME (or Home) at every roundstart to actually load the script again. (It resets every round - game limitation)
 
-You don't know which Keys I am talking about? I mean these, above your arrowkeys:
+You don't know which keys I am talking about? I mean these, above your arrowkeys:
 
 ![Keys](http://i.imgur.com/80HBEjD.png)
 
+Or you can force-set the desired knife using "kc_<knife's name>"(example: kc_daggers)
+All available knives:
+* flip
+* gut
+* falchion
+* huntsman
+* karambit
+* m9
+* bayonet
+* daggers
+* bowie
+* butterfly
+* default
+
 ToDo List:
+* Add an option to customize binds
 * Add a little menu(though I have no idea how to implement it yet)
-
-Some things Phillip added:
-
-* Removed sv_cheats 1 as it's not needed anymore
-* Removed some not really necessary functions
-* Added a system that allows the Script to be controlled with keys instead of console
-* Auto setup of the script for the first round
 
 Links:
 

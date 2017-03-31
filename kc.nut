@@ -1,6 +1,6 @@
-/* knifechoose.nut v2.3-finalbeta
+/* knifechoose.nut v2.3
  * Firstperson Knife Model Changer
- * by Gray and Phillip
+ * by Gray and p410n3
  * github: https://github.com/serkas001/knifechoose.nut/
  *
  * Things used:
@@ -19,7 +19,7 @@
  * You also have to press 'HOME' on every roundstart to reload the script.
  *	Info about why you have to do this can be found in the github repo's README file
  * Done!
- * More features and optimization will be included in future updates! Stay turned!
+ * More features and optimizations will be included in future updates! Stay tuned!
  * Also the butterfly knife's very buggy, even unusable, but there's nothing I can do about it, at least yet.
  */
 
@@ -40,7 +40,7 @@
 */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-kc_version			 <- "v2.3-finalbeta";
+kc_version			 <- "v2.3";
 
 //Tracks which knife is currently selected
 //Flip knife is enabled by default
@@ -54,11 +54,11 @@ function knifeWelcomeMessage()
 	printl("[KC] Firstperson Knife Model Changer " + kc_version);
 	printl("[KC] by Gray and PalOne, site: https://github.com/serkas001/knifechoose.nut");
 	printl("[KC] Usage:");
-	printl("[KC] Press 'INS' to switch between knifes or");
-	printl("[KC] Type the knife's name in your console to force-set it:");
-	printl("[KC] 	 kc_<m9, flip, bayonet, butterfly, falchion, gut, huntsman, karambit, daggers, bowie>");
+	printl("[KC] Press 'INS' to switch between knives or");
+	printl("[KC] Type the knife's name in your console with \"kc_\" prefix to force-set it:");
+	printl("[KC] All available knives: flip, gut, falchion, huntsman, karambit, m9, bayonet, daggers, bowie, butterfly, default");
 	printl("[KC] Example: kc_daggers");
-	printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script")
+	printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script every round")
 	printl("[KC]			You may take a look on the github repo's discription for details");
 }
 
@@ -106,6 +106,7 @@ knifeAliases();
 knifeSetup();
 
 //Debug menu. Can be seen by typing "script knifeDebug()" in console
+//ToDo Add more debug options
 function knifeDebug()
 {
 	printl("kc_current_knife = " + kc_current_knife);
@@ -116,17 +117,17 @@ function knifeSelect()
 {
 	switch(kc_current_knife)
 	{
-		case 0: knifeSet(1); break;					//current knife = default -> change to flip
+		case 0: knifeSet(1); break;						//current knife = default -> change to flip
 		case 1: knifeSet(2); break;						//current knife = flip -> change to gut
-		case 2: knifeSet(3); break;			//current knife = gut -> change to falchion
-		case 3: knifeSet(4); break;			//current knife = falchion -> change to huntsman
-		case 4: knifeSet(5); break;			//current knife = huntsman -> change to karambit
+		case 2: knifeSet(3); break;						//current knife = gut -> change to falchion
+		case 3: knifeSet(4); break;						//current knife = falchion -> change to huntsman
+		case 4: knifeSet(5); break;						//current knife = huntsman -> change to karambit
 		case 5: knifeSet(6); break;						//current knife = karambit -> change to m9
-		case 6: knifeSet(7); break;				//current knife = m9 -> change to bayonet
-		case 7: knifeSet(8); break;				//current knife = bayonet -> change to daggers
-		case 8: knifeSet(9); break;					//current knife = daggers -> change to bowie
-		//case 9: butterfly(); break;			//current knife = bowie -> change to butterfly
-		default: knifeSet(0); break;		//current knife = any other knife -> change to default
+		case 6: knifeSet(7); break;						//current knife = m9 -> change to bayonet
+		case 7: knifeSet(8); break;						//current knife = bayonet -> change to daggers
+		case 8: knifeSet(9); break;						//current knife = daggers -> change to bowie
+		//case 9: knifeSet(10); break;				//current knife = bowie -> change to butterfly
+		default: knifeSet(0); break;					//current knife = any other knife -> change to default
 	}
 }
 
