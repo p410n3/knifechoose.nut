@@ -99,8 +99,8 @@ function knifeSetup()
 //---------------------------------------------------------------------
 //These 3 commands launch on script execute
 SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreating logic_timer
-SendToConsole("bind ins \"script nextKnifeSelect()\"");		//Binds ins to selecting next knife
-SendToConsole("bind del \"script prevKnifeSelect()\"");		//Binds del to selecting previous knife
+SendToConsole("bind ins \"script knifeNextSelect()\"");		//Binds ins to selecting next knife
+SendToConsole("bind del \"script knifePrevSelect()\"");		//Binds del to selecting previous knife
 knifeWelcomeMessage();
 knifeAliases();
 knifeSetup();
@@ -113,7 +113,7 @@ function knifeDebug()
 }
 
 //Goes through the list of knives one-by-one(auto-binded to 'ins')
-function nextKnifeSelect()
+function knifeNextSelect()
 {
 	switch(kc_current_knife)
 	{
@@ -126,12 +126,12 @@ function nextKnifeSelect()
 		case 6: knifeSet(7); break;						//current knife = m9 -> change to bayonet
 		case 7: knifeSet(8); break;						//current knife = bayonet -> change to daggers
 		case 8: knifeSet(9); break;						//current knife = daggers -> change to bowie
-		case 9: knifeSet(10); break;				//current knife = bowie -> change to butterfly
+		//case 9: knifeSet(10); break;				//current knife = bowie -> change to butterfly
 		default: knifeSet(0); break;					//current knife = any other knife -> change to default
 	}
 }
 
-function prevKnifeSelect()
+function knifePrevSelect()
 {
 	switch(kc_current_knife)
 	{
