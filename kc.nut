@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.3.1-beta1
+/* knifechoose.nut v2.3.1-beta2
  * Firstperson Knife Model Changer
  * by Gray and p410n3
  * github: https://github.com/serkas001/knifechoose.nut/
@@ -24,7 +24,7 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-const kc_version = "v2.3.1-beta1";
+const kc_version = "v2.3.1-beta2";
 
 enum Knife
 {
@@ -112,65 +112,21 @@ function knifeDebug()
 	printl("kc_current_knife = " + kc_current_knife);
 }
 
-//Goes through the list of knives one-by-one(auto-binded to 'ins')
+//Goes through the list of knives(-butterfly cause of bugginess) one-by-one(auto-binded to 'ins')
 function knifeSelectNext()
 {
-	switch(kc_current_knife)
-	{
-		case Knife.standard:
-			knifeSet(Knife.flip); break;
-		case Knife.flip:
-			knifeSet(Knife.gut); break;
-		case Knife.gut:
-			knifeSet(Knife.falchion); break;
-		case Knife.falchion:
-			knifeSet(Knife.huntsman); break;
-		case Knife.huntsman:
-			knifeSet(Knife.karambit); break;
-		case Knife.karambit:
-			knifeSet(Knife.m9); break;
-		case Knife.m9:
-			knifeSet(Knife.bayonet); break;
-		case Knife.bayonet:
-			knifeSet(Knife.daggers); break;
-		case Knife.daggers:
-			knifeSet(Knife.bowie); break;
-		/*case Knife.bowie:
-			knifeSet(Knife.butterfly); break;*/
-		default:
-			knifeSet(Knife.standard);
-	}
+	knifeSet(++kc_current_knife == Knife.butterfly ? kc_current_knife = Knife.standard:kc_current_knife);
+		//Adds 1 to kc_current_knife thus changing the knife to the next one
+		//If the next knife == Knife.butterfly (10) then set it to Knife.standard (0) (Skips butterfly 'cause of its bugginess')
 }
 
-//Goes through the list of knives backwards one-by-one(auto-binded to 'del')
+//Goes through the list of knives(-butterfly cause of bugginess) backwards one-by-one(auto-binded to 'del')
 function knifeSelectPrev()
 {
-	//Not working! To rewrite
-	switch(kc_current_knife)
-	{
-		case Knife.standard:
-			knifeSet(Knife.flip); break;
-		case Knife.flip:
-			knifeSet(Knife.gut); break;
-		case Knife.gut:
-			knifeSet(Knife.falchion); break;
-		case Knife.falchion:
-			knifeSet(Knife.huntsman); break;
-		case Knife.huntsman:
-			knifeSet(Knife.karambit); break;
-		case Knife.karambit:
-			knifeSet(Knife.m9); break;
-		case Knife.m9:
-			knifeSet(Knife.bayonet); break;
-		case Knife.bayonet:
-			knifeSet(Knife.daggers); break;
-		case Knife.daggers:
-			knifeSet(Knife.bowie); break;
-		/*case Knife.bowie:
-			knifeSet(Knife.butterfly); break;*/
-		default:
-			knifeSet(Knife.standard);
-	}
+	knifeSet(--kc_current_knife < Knife.standard ? kc_current_knife = Knife.bowie:kc_current_knife);
+		//Substacts 1 from kc_current_knife thus changing the knife to the previous one
+		//If the previous knife < Knife.standard (0) then set it to Knife.bowie (9)
+		//	thus skipping out butterfly
 }
 
 //Changes knife to the selected one(by its number as a parameter)
