@@ -25,7 +25,6 @@
 
 /*
 		Every knife name and its corresponding number
-
 		flip - 1
 		gut - 2
 		falchion - 3
@@ -100,7 +99,8 @@ function knifeSetup()
 //---------------------------------------------------------------------
 //These 3 commands launch on script execute
 SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreating logic_timer
-SendToConsole("bind ins \"script knifeSelect()\"");		//Binds ins to selecting knife
+SendToConsole("bind ins \"script nextKnifeSelect()\"");		//Binds ins to selecting next knife
+SendToConsole("bind del \"script prevKnifeSelect()\"");		//Binds del to selecting previous knife
 knifeWelcomeMessage();
 knifeAliases();
 knifeSetup();
@@ -113,7 +113,7 @@ function knifeDebug()
 }
 
 //Goes through the list of knives one-by-one(auto-binded to 'ins')
-function knifeSelect()
+function nextKnifeSelect()
 {
 	switch(kc_current_knife)
 	{
@@ -126,7 +126,25 @@ function knifeSelect()
 		case 6: knifeSet(7); break;						//current knife = m9 -> change to bayonet
 		case 7: knifeSet(8); break;						//current knife = bayonet -> change to daggers
 		case 8: knifeSet(9); break;						//current knife = daggers -> change to bowie
-		//case 9: knifeSet(10); break;				//current knife = bowie -> change to butterfly
+		case 9: knifeSet(10); break;				//current knife = bowie -> change to butterfly
+		default: knifeSet(0); break;					//current knife = any other knife -> change to default
+	}
+}
+
+function prevKnifeSelect()
+{
+	switch(kc_current_knife)
+	{
+		case 0: knifeSet(9); break;						//current knife = default -> change to flip
+		case 1: knifeSet(0); break;						//current knife = flip -> change to gut
+		case 2: knifeSet(1); break;						//current knife = gut -> change to falchion
+		case 3: knifeSet(2); break;						//current knife = falchion -> change to huntsman
+		case 4: knifeSet(3); break;						//current knife = huntsman -> change to karambit
+		case 5: knifeSet(4); break;						//current knife = karambit -> change to m9
+		case 6: knifeSet(5); break;						//current knife = m9 -> change to bayonet
+		case 7: knifeSet(6); break;						//current knife = bayonet -> change to daggers
+		case 8: knifeSet(7); break;						//current knife = daggers -> change to bowie
+		case 9: knifeSet(8); break;				//current knife = bowie -> change to butterfly
 		default: knifeSet(0); break;					//current knife = any other knife -> change to default
 	}
 }
