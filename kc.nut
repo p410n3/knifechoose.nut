@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.4-beta2
+/* knifechoose.nut v2.4
  * Firstperson Knife Model Changer
  * by Gray and p410n3
  * github: https://github.com/serkas001/knifechoose.nut/
@@ -24,21 +24,21 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-const kc_version = "v2.4-beta2";
+const kc_version = "v2.4";
 
 enum Knife
 {
-	standard,
-	flip,
-	gut,
-	falchion,
-	huntsman,
-	karambit,
-	m9,
-	bayonet,
-	daggers,
-	bowie,
-	butterfly
+	standard,	//0		//We have to use "standard" instead of "default", 'cause "default" is a prereserved key-word :c
+	flip,			//1
+	gut,			//2
+	falchion,	//3
+	huntsman,	//4
+	karambit,	//5
+	m9,				//6
+	bayonet,	//7
+	daggers,	//8
+	bowie,		//9
+	butterfly	//10
 }
 
 //Tracks which knife is currently selected
@@ -97,10 +97,11 @@ function knifeSetup()
 }
 
 //---------------------------------------------------------------------
-//These 3 commands launch on script execute
+//Bind the keys to selecting knives and reloading the script(works only if executed from listen server console)
 SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreating logic_timer
 SendToConsole("bind ins \"script knifeSelectNext()\"");		//Binds ins to selecting next knife
 SendToConsole("bind del \"script knifeSelectPrev()\"");		//Binds del to selecting previous knife
+//These 3 commands launch on script execute
 knifeWelcomeMessage();
 knifeAliases();
 knifeSetup();
@@ -132,77 +133,77 @@ function knifeSelectPrev()
 }
 
 //Changes knife to the selected one(by its number as a parameter)
-function knifeSet(knife_number)
+function knifeSet(knife_change_to)
 {
 	local display_message = null;
 
-	switch(knife_number)		//Case x knife is selected
+	switch(knife_change_to)
 	{
 		case Knife.flip:
-		{	//Flip
+		{
 			kc_current_knife = Knife.flip;
 			display_message = "[KC] Flip Knife equiped.";
 			break;
 		}
 
 		case Knife.gut:
-		{	//Gut
+		{
 			kc_current_knife = Knife.gut;
 			display_message = "[KC] Gut Knife equiped.";
 			break;
 		}
 
 		case Knife.falchion:
-		{	//Falchion
+		{
 			kc_current_knife = Knife.falchion;
 			display_message = "[KC] Falchion Knife equiped.";
 			break;
 		}
 
 		case Knife.huntsman:
-		{	//Huntsman
+		{
 			kc_current_knife = Knife.huntsman;
 			display_message = "[KC] Huntsman Knife equiped.";
 			break;
 		}
 
 		case Knife.karambit:
-		{	//Karambit
+		{
 			kc_current_knife = Knife.karambit;
 			display_message = "[KC] Karambit equiped.";
 			break;
 		}
 
 		case Knife.m9:
-		{	//M9
+		{
 			kc_current_knife = Knife.m9;
 			display_message = "[KC] M9 Bayonet equiped.";
 			break;
 		}
 
 		case Knife.bayonet:
-		{	//Bayonet
+		{
 			kc_current_knife = Knife.bayonet;
 			display_message = "[KC] Bayonet equiped.";
 			break;
 		}
 
 		case Knife.daggers:
-		{	//Daggers
+		{
 			kc_current_knife = Knife.daggers;
 			display_message = "[KC] Shadow Daggers equiped.";
 			break;
 		}
 
 		case Knife.bowie:
-		{	//Bowie
+		{
 			kc_current_knife = Knife.bowie;
 			display_message = "[KC] Bowie equiped.";
 			break;
 		}
 
 		case Knife.butterfly:
-		{	//Butterfly
+		{
 			kc_current_knife = Knife.butterfly;
 			display_message = "[KC] Butterfly Knife equiped.";
 			break;
@@ -251,7 +252,7 @@ function knifeModelSet()
 		}
 
 		case Knife.falchion:
-		{	//Falchion
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
@@ -264,7 +265,7 @@ function knifeModelSet()
 		}
 
 		case Knife.huntsman:
-		{	//Huntsman
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_tactical.mdl");
@@ -277,7 +278,7 @@ function knifeModelSet()
 		}
 
 		case Knife.karambit:
-		{	//Karambit
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_karam.mdl");
@@ -290,7 +291,7 @@ function knifeModelSet()
 		}
 
 		case Knife.m9:
-		{	//M9
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_m9_bay.mdl");
@@ -303,7 +304,7 @@ function knifeModelSet()
 		}
 
 		case Knife.bayonet:
-		{	//Bayonet
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_bayonet.mdl");
@@ -316,7 +317,7 @@ function knifeModelSet()
 		}
 
 		case Knife.daggers:
-		{	//Daggers
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_push.mdl");
@@ -329,7 +330,7 @@ function knifeModelSet()
 		}
 
 		case Knife.bowie:
-		{	//Bowie
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_survival_bowie.mdl");
@@ -342,7 +343,7 @@ function knifeModelSet()
 		}
 
 		case Knife.butterfly:
-		{	//Butterfly
+		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
 				knife.SetModel("models/weapons/v_knife_butterfly.mdl");
