@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.3
+/* knifechoose.nut v2.3.1-beta1
  * Firstperson Knife Model Changer
  * by Gray and p410n3
  * github: https://github.com/serkas001/knifechoose.nut/
@@ -39,7 +39,7 @@
 */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-kc_version			 <- "v2.3";
+const kc_version = "v2.3.1-beta1";
 
 //Tracks which knife is currently selected
 //Flip knife is enabled by default
@@ -99,8 +99,8 @@ function knifeSetup()
 //---------------------------------------------------------------------
 //These 3 commands launch on script execute
 SendToConsole("bind home \"script knifeSetup()\"");		//Binds home to recreating logic_timer
-SendToConsole("bind ins \"script knifeNextSelect()\"");		//Binds ins to selecting next knife
-SendToConsole("bind del \"script knifePrevSelect()\"");		//Binds del to selecting previous knife
+SendToConsole("bind ins \"script knifeSelectNext()\"");		//Binds ins to selecting next knife
+SendToConsole("bind del \"script knifeSelectPrev()\"");		//Binds del to selecting previous knife
 knifeWelcomeMessage();
 knifeAliases();
 knifeSetup();
@@ -113,7 +113,7 @@ function knifeDebug()
 }
 
 //Goes through the list of knives one-by-one(auto-binded to 'ins')
-function knifeNextSelect()
+function knifeSelectNext()
 {
 	switch(kc_current_knife)
 	{
@@ -131,7 +131,8 @@ function knifeNextSelect()
 	}
 }
 
-function knifePrevSelect()
+//Goes through the list of knives backwards one-by-one(auto-binded to 'del')
+function knifeSelectPrev()
 {
 	switch(kc_current_knife)
 	{
