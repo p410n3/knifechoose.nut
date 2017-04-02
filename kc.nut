@@ -23,27 +23,27 @@
  * Also the butterfly knife's very buggy, even unusable, but there's nothing I can do about it, at least yet.
  */
 
-/*
-		Every knife name and its corresponding number
-		flip - 1
-		gut - 2
-		falchion - 3
-		huntsman - 4
-		karambit - 5
-		m9 - 6
-		bayonet - 7
-		daggers - 8
-		bowie - 9
-		butterfly - 10
-		default - 0
-*/
-
 //Current script's version. Used in messages, so it is not hard-coded.
 const kc_version = "v2.3.1-beta1";
 
+enum Knife
+{
+	standard,
+	flip,
+	gut,
+	falchion,
+	huntsman,
+	karambit,
+	m9,
+	bayonet,
+	daggers,
+	bowie,
+	butterfly
+}
+
 //Tracks which knife is currently selected
 //Flip knife is enabled by default
-kc_current_knife <- 1;
+kc_current_knife <- Knife.flip;
 
 //Displays messages on first startup both to chat and console.
 function knifeWelcomeMessage()
@@ -64,17 +64,17 @@ function knifeWelcomeMessage()
 //Creates aliases for every knife available
 function knifeAliases()
 {
-	SendToConsole("alias kc_flip \"script knifeSet(1)\"");
-	SendToConsole("alias kc_gut \"script knifeSet(2)\"");
-	SendToConsole("alias kc_falchion \"script knifeSet(3)\"");
-	SendToConsole("alias kc_huntsman \"script knifeSet(4)\"");
-	SendToConsole("alias kc_karambit \"script knifeSet(5)\"");
-	SendToConsole("alias kc_m9 \"script knifeSet(6)\"");
-	SendToConsole("alias kc_bayonet \"script knifeSet(7)\"");
-	SendToConsole("alias kc_daggers \"script knifeSet(8)\"");
-	SendToConsole("alias kc_bowie \"script knifeSet(9)\"");
-	SendToConsole("alias kc_butterfly \"script knifeSet(10)\"");
-	SendToConsole("alias kc_default \"script knifeSet(0)\"");
+	SendToConsole("alias kc_flip \"script knifeSet(Knife.flip)\"");
+	SendToConsole("alias kc_gut \"script knifeSet(Knife.gut)\"");
+	SendToConsole("alias kc_falchion \"script knifeSet(Knife.falchion)\"");
+	SendToConsole("alias kc_huntsman \"script knifeSet(Knife.huntsman)\"");
+	SendToConsole("alias kc_karambit \"script knifeSet(Knife.karambit)\"");
+	SendToConsole("alias kc_m9 \"script knifeSet(Knife.m9)\"");
+	SendToConsole("alias kc_bayonet \"script knifeSet(Knife.bayonet)\"");
+	SendToConsole("alias kc_daggers \"script knifeSet(Knife.daggers)\"");
+	SendToConsole("alias kc_bowie \"script knifeSet(Knife.bowie)\"");
+	SendToConsole("alias kc_butterfly \"script knifeSet(Knife.butterfly)\"");
+	SendToConsole("alias kc_standard \"script knifeSet(Knife.standard)\"");
 }
 
 //Creates a new logic_timer entity(if there is not one)
@@ -117,36 +117,59 @@ function knifeSelectNext()
 {
 	switch(kc_current_knife)
 	{
-		case 0: knifeSet(1); break;						//current knife = default -> change to flip
-		case 1: knifeSet(2); break;						//current knife = flip -> change to gut
-		case 2: knifeSet(3); break;						//current knife = gut -> change to falchion
-		case 3: knifeSet(4); break;						//current knife = falchion -> change to huntsman
-		case 4: knifeSet(5); break;						//current knife = huntsman -> change to karambit
-		case 5: knifeSet(6); break;						//current knife = karambit -> change to m9
-		case 6: knifeSet(7); break;						//current knife = m9 -> change to bayonet
-		case 7: knifeSet(8); break;						//current knife = bayonet -> change to daggers
-		case 8: knifeSet(9); break;						//current knife = daggers -> change to bowie
-		//case 9: knifeSet(10); break;				//current knife = bowie -> change to butterfly
-		default: knifeSet(0); break;					//current knife = any other knife -> change to default
+		case Knife.standard:
+			knifeSet(Knife.flip); break;
+		case Knife.flip:
+			knifeSet(Knife.gut); break;
+		case Knife.gut:
+			knifeSet(Knife.falchion); break;
+		case Knife.falchion:
+			knifeSet(Knife.huntsman); break;
+		case Knife.huntsman:
+			knifeSet(Knife.karambit); break;
+		case Knife.karambit:
+			knifeSet(Knife.m9); break;
+		case Knife.m9:
+			knifeSet(Knife.bayonet); break;
+		case Knife.bayonet:
+			knifeSet(Knife.daggers); break;
+		case Knife.daggers:
+			knifeSet(Knife.bowie); break;
+		/*case Knife.bowie:
+			knifeSet(Knife.butterfly); break;*/
+		default:
+			knifeSet(Knife.standard);
 	}
 }
 
 //Goes through the list of knives backwards one-by-one(auto-binded to 'del')
 function knifeSelectPrev()
 {
+	//Not working! To rewrite
 	switch(kc_current_knife)
 	{
-		case 0: knifeSet(9); break;						//current knife = default -> change to flip
-		case 1: knifeSet(0); break;						//current knife = flip -> change to gut
-		case 2: knifeSet(1); break;						//current knife = gut -> change to falchion
-		case 3: knifeSet(2); break;						//current knife = falchion -> change to huntsman
-		case 4: knifeSet(3); break;						//current knife = huntsman -> change to karambit
-		case 5: knifeSet(4); break;						//current knife = karambit -> change to m9
-		case 6: knifeSet(5); break;						//current knife = m9 -> change to bayonet
-		case 7: knifeSet(6); break;						//current knife = bayonet -> change to daggers
-		case 8: knifeSet(7); break;						//current knife = daggers -> change to bowie
-		case 9: knifeSet(8); break;				//current knife = bowie -> change to butterfly
-		default: knifeSet(0); break;					//current knife = any other knife -> change to default
+		case Knife.standard:
+			knifeSet(Knife.flip); break;
+		case Knife.flip:
+			knifeSet(Knife.gut); break;
+		case Knife.gut:
+			knifeSet(Knife.falchion); break;
+		case Knife.falchion:
+			knifeSet(Knife.huntsman); break;
+		case Knife.huntsman:
+			knifeSet(Knife.karambit); break;
+		case Knife.karambit:
+			knifeSet(Knife.m9); break;
+		case Knife.m9:
+			knifeSet(Knife.bayonet); break;
+		case Knife.bayonet:
+			knifeSet(Knife.daggers); break;
+		case Knife.daggers:
+			knifeSet(Knife.bowie); break;
+		/*case Knife.bowie:
+			knifeSet(Knife.butterfly); break;*/
+		default:
+			knifeSet(Knife.standard);
 	}
 }
 
@@ -157,79 +180,79 @@ function knifeSet(knife_number)
 
 	switch(knife_number)		//Case x knife is selected
 	{
-		case 1:
+		case Knife.flip:
 		{	//Flip
-			kc_current_knife = 1;
+			kc_current_knife = Knife.flip;
 			display_message = "[KC] Flip Knife equiped.";
 			break;
 		}
 
-		case 2:
+		case Knife.gut:
 		{	//Gut
-			kc_current_knife = 2;
+			kc_current_knife = Knife.gut;
 			display_message = "[KC] Gut Knife equiped.";
 			break;
 		}
 
-		case 3:
+		case Knife.falchion:
 		{	//Falchion
-			kc_current_knife = 3;
+			kc_current_knife = Knife.falchion;
 			display_message = "[KC] Falchion Knife equiped.";
 			break;
 		}
 
-		case 4:
+		case Knife.huntsman:
 		{	//Huntsman
-			kc_current_knife = 4;
+			kc_current_knife = Knife.huntsman;
 			display_message = "[KC] Huntsman Knife equiped.";
 			break;
 		}
 
-		case 5:
+		case Knife.karambit:
 		{	//Karambit
-			kc_current_knife = 5;
+			kc_current_knife = Knife.karambit;
 			display_message = "[KC] Karambit equiped.";
 			break;
 		}
 
-		case 6:
+		case Knife.m9:
 		{	//M9
-			kc_current_knife = 6;
+			kc_current_knife = Knife.m9;
 			display_message = "[KC] M9 Bayonet equiped.";
 			break;
 		}
 
-		case 7:
+		case Knife.bayonet:
 		{	//Bayonet
-			kc_current_knife = 7;
+			kc_current_knife = Knife.bayonet;
 			display_message = "[KC] Bayonet equiped.";
 			break;
 		}
 
-		case 8:
+		case Knife.daggers:
 		{	//Daggers
-			kc_current_knife = 8;
+			kc_current_knife = Knife.daggers;
 			display_message = "[KC] Shadow Daggers equiped.";
 			break;
 		}
 
-		case 9:
+		case Knife.bowie:
 		{	//Bowie
-			kc_current_knife = 9;
+			kc_current_knife = Knife.bowie;
 			display_message = "[KC] Bowie equiped.";
 			break;
 		}
 
-		case 10:
+		case Knife.butterfly:
 		{	//Butterfly
-			kc_current_knife = 10;
+			kc_current_knife = Knife.butterfly;
 			display_message = "[KC] Butterfly Knife equiped.";
 			break;
 		}
 
 		default:
 		{	//Any other
-			kc_current_knife = 0;
+			kc_current_knife = Knife.standard;
 			display_message = "[KC] Default Knife equiped.";
 		}
 	}
