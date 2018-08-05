@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.4
+/* knifechoose.nut v2.5.0
  * Firstperson Knife Model Changer
  * by Gray and p410n3
  * github: https://github.com/serkas001/knifechoose.nut/
@@ -24,21 +24,25 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-const kc_version = "v2.4";
+const kc_version = "v2.5.0";
 
 enum Knife
 {
-	standard,	//0		//We have to use "standard" instead of "default", 'cause "default" is a prereserved key-word :c
-	flip,			//1
-	gut,			//2
-	falchion,	//3
-	huntsman,	//4
-	karambit,	//5
-	m9,				//6
-	bayonet,	//7
-	daggers,	//8
-	bowie,		//9
-	butterfly	//10
+	standard,	    //0		//We have to use "standard" instead of "default", 'cause "default" is a prereserved key-word :c
+	flip,		    //1
+	gut,		    //2
+	falchion,	    //3
+	huntsman,	    //4
+	karambit,	    //5
+    m9,			    //6
+	bayonet,	    //7
+	daggers,	    //8
+	bowie,		    //9
+    butterfly,     	//10
+    stiletto,       //11
+    ursus,          //12
+    widowmaker,     //13 aka talon
+    gypsy_jackknife //14 aka navaja
 }
 
 //Tracks which knife is currently selected
@@ -55,7 +59,7 @@ function knifeWelcomeMessage()
 	printl("[KC] Usage:");
 	printl("[KC] Press 'INS' to switch between knives or");
 	printl("[KC] Type the knife's name in your console with \"kc_\" prefix to force-set it:");
-	printl("[KC] All available knives: flip, gut, falchion, huntsman, karambit, m9, bayonet, daggers, bowie, butterfly, default");
+	printl("[KC] All available knives: flip, gut, falchion, huntsman, karambit, m9, bayonet, daggers, bowie, butterfly, stiletto, ursus, talon, navaja, default");
 	printl("[KC] Example: kc_daggers");
 	printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script every round")
 	printl("[KC]			You may take a look on the github repo's discription for details");
@@ -74,7 +78,11 @@ function knifeAliases()
 	SendToConsole("alias kc_daggers \"script knifeSet(Knife.daggers)\"");
 	SendToConsole("alias kc_bowie \"script knifeSet(Knife.bowie)\"");
 	SendToConsole("alias kc_butterfly \"script knifeSet(Knife.butterfly)\"");
-	SendToConsole("alias kc_standard \"script knifeSet(Knife.standard)\"");
+	SendToConsole("alias kc_stiletto \"script knifeSet(Knife.stiletto)\"");
+	SendToConsole("alias kc_ursus \"script knifeSet(Knife.ursus)\"");
+	SendToConsole("alias kc_talon \"script knifeSet(Knife.widowmaker)\"");
+	SendToConsole("alias kc_navaja \"script knifeSet(Knife.gypsy_jackknife)\"");
+	SendToConsole("alias kc_default \"script knifeSet(Knife.standard)\"");
 }
 
 //Creates a new logic_timer entity(if there is not one)
@@ -90,7 +98,7 @@ function knifeSetup()
 	}
 
 	EntFire("knifeTimer", "enable");
-	EntFire("knifeTimer", "addoutput", "refiretime 0.05");
+	EntFire("knifeTimer", "addoutput", "refiretime 0.001"); //random attempt to minimize glitching on clients
 	EntFire("knifeTimer", "addoutput", "UseRandomTime 0");
 	EntFire("knifeTimer", "addoutput", "ontimer knifeTimer,RunScriptCode,knifeModelSet()");
 
@@ -116,20 +124,28 @@ function knifeDebug()
 //Goes through the list of knives(-butterfly cause of bugginess) one-by-one(auto-binded to 'ins')
 function knifeSelectNext()
 {
-	knifeSet(++kc_current_knife == Knife.butterfly ? kc_current_knife = Knife.standard:kc_current_knife);
+	knifeSet(++kc_current_knife);
 		//Adds 1 to kc_current_knife thus changing the knife to the next one
 		//If the next knife == Knife.butterfly (10) then set it to Knife.standard (0)
 		//Note: if butterfly wasn't so buggy, we could just use knifeSet(++kc_current_knife),
 		//	'cause knifeSet() already sets every value > 10(buttefly) && < 0 to 0(standard)
+
+		//Note from palonE:
+
+		//I decided to include the butterfly, I think its not too buggy 
 }
 
 //Goes through the list of knives(-butterfly cause of bugginess) backwards one-by-one(auto-binded to 'del')
 function knifeSelectPrev()
 {
-	knifeSet(--kc_current_knife < Knife.standard ? kc_current_knife = Knife.bowie:kc_current_knife);
+	knifeSet(--kc_current_knife < Knife.standard ? Knife.gypsy_jackknife:kc_current_knife);
 		//Substacts 1 from kc_current_knife thus changing the knife to the previous one
 		//If the previous knife < Knife.standard (0) then set it to Knife.bowie (9)
 		//	thus skipping out butterfly
+
+		//Note from palonE:
+
+		//I decided to include the butterfly, I think its not too buggy 
 }
 
 //Changes knife to the selected one(by its number as a parameter)
@@ -208,6 +224,34 @@ function knifeSet(knife_change_to)
 			display_message = "[KC] Butterfly Knife equiped.";
 			break;
 		}
+
+        case Knife.stiletto: 
+        {
+            kc_current_knife = Knife.stiletto;
+			display_message = "[KC] Stiletto Knife equiped.";
+			break;
+        }
+
+        case Knife.ursus: 
+        {
+            kc_current_knife = Knife.ursus;
+			display_message = "[KC] Ursus Knife equiped.";
+			break;
+        }
+
+		case Knife.widowmaker: 
+        {
+            kc_current_knife = Knife.widowmaker;
+			display_message = "[KC] Talon Knife equiped.";
+			break;
+        }
+
+		case Knife.gypsy_jackknife: 
+        {
+            kc_current_knife = Knife.gypsy_jackknife;
+			display_message = "[KC] Najava Knife equiped.";
+			break;
+        }
 
 		default:
 		{	//Any other
@@ -351,6 +395,58 @@ function knifeModelSet()
 			local knife = null;
 			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 				knife.SetModel("models/weapons/v_knife_butterfly.mdl");
+
+			break;
+		}
+
+        case Knife.stiletto:
+		{
+			local knife = null;
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+				knife.SetModel("models/weapons/v_knife_stiletto.mdl");
+
+			local knife = null;
+			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+				knife.SetModel("models/weapons/v_knife_stiletto.mdl");
+
+			break;
+		}
+
+		case Knife.ursus:
+		{
+			local knife = null;
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+				knife.SetModel("models/weapons/v_knife_ursus.mdl");
+
+			local knife = null;
+			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+				knife.SetModel("models/weapons/v_knife_ursus.mdl");
+
+			break;
+		}
+
+		case Knife.widowmaker:
+		{
+			local knife = null;
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+				knife.SetModel("models/weapons/v_knife_widowmaker.mdl");
+
+			local knife = null;
+			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+				knife.SetModel("models/weapons/v_knife_widowmaker.mdl");
+
+			break;
+		}
+
+		case Knife.gypsy_jackknife:
+		{
+			local knife = null;
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+				knife.SetModel("models/weapons/v_knife_gypsy_jackknife.mdl");
+
+			local knife = null;
+			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+				knife.SetModel("models/weapons/v_knife_gypsy_jackknife.mdl");
 
 			break;
 		}

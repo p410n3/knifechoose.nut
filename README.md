@@ -31,6 +31,10 @@ All available knives:
 * daggers
 * bowie
 * butterfly
+* stiletto
+* ursus
+* talon
+* navaja
 * default
 
 ToDo List:
@@ -42,7 +46,7 @@ ToDo List:
 Links:
 ------
 
-[Gamebanana](http://gamebanana.com/gamefiles/4107)
+[Gamebanana](http://gamebanana.com/gamefiles/4107) **OUTDATED**
 
 Youtube Preview Video(a little bit outdated, but still shows what the script does)
 
