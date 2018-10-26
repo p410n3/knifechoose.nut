@@ -1,7 +1,7 @@
-/* knifechoose.nut v2.5.0
+/* knifechoose.nut v2.6.0
  * Firstperson Knife Model Changer
- * by Gray and p410n3
- * github: https://github.com/serkas001/knifechoose.nut/
+ * by Ciren and p410n3
+ * github: https://github.com/p410n3/knifechoose.nut/
  *
  * Things used:
  * nadetraining.nut by S0lll0s, Bidj and Rurre is used as a very base of the script
@@ -24,7 +24,7 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-const kc_version = "v2.5.0";
+const kc_version = "v2.6.0";
 
 enum Knife
 {
@@ -42,7 +42,8 @@ enum Knife
     stiletto,       //11
     ursus,          //12
     widowmaker,     //13 aka talon
-    gypsy_jackknife //14 aka navaja
+    gypsy_jackknife,//14 aka navaja
+	ghost			//15
 }
 
 //Tracks which knife is currently selected
@@ -55,7 +56,7 @@ function knifeWelcomeMessage()
 	ScriptPrintMessageChatAll("[KC] Firstperson Knife Model Changer " + kc_version + " loaded. Check your admin console!");
 	printl("[KC] knifechoose.nut");
 	printl("[KC] Firstperson Knife Model Changer " + kc_version);
-	printl("[KC] by Gray and PalOne, site: https://github.com/serkas001/knifechoose.nut");
+	printl("[KC] by Ciren and PalOne, site: https://github.com/p410n3/knifechoose.nut");
 	printl("[KC] Usage:");
 	printl("[KC] Press 'INS' to switch between knives or");
 	printl("[KC] Type the knife's name in your console with \"kc_\" prefix to force-set it:");
@@ -82,6 +83,7 @@ function knifeAliases()
 	SendToConsole("alias kc_ursus \"script knifeSet(Knife.ursus)\"");
 	SendToConsole("alias kc_talon \"script knifeSet(Knife.widowmaker)\"");
 	SendToConsole("alias kc_navaja \"script knifeSet(Knife.gypsy_jackknife)\"");
+	SendToConsole("alias kc_ghost \"script knifeSet(Knife.ghost)\"");
 	SendToConsole("alias kc_default \"script knifeSet(Knife.standard)\"");
 }
 
@@ -250,6 +252,13 @@ function knifeSet(knife_change_to)
         {
             kc_current_knife = Knife.gypsy_jackknife;
 			display_message = "[KC] Najava Knife equiped.";
+			break;
+        }
+
+		case Knife.ghost: 
+        {
+            kc_current_knife = Knife.ghost;
+			display_message = "[KC] Spectral Shiv equiped.";
 			break;
         }
 
@@ -447,6 +456,19 @@ function knifeModelSet()
 			local knife = null;
 			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 				knife.SetModel("models/weapons/v_knife_gypsy_jackknife.mdl");
+
+			break;
+		}
+
+		case Knife.ghost:
+		{
+			local knife = null;
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+				knife.SetModel("models/weapons/v_knife_ghost.mdl");
+
+			local knife = null;
+			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+				knife.SetModel("models/weapons/v_knife_ghost.mdl");
 
 			break;
 		}

@@ -35,6 +35,7 @@ All available knives:
 * ursus
 * talon
 * navaja
+* ghost
 * default
 
 ToDo List:
