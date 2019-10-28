@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.6.0
+/* knifechoose.nut v2.7.0
  * Firstperson Knife Model Changer
  * by Ciren and p410n3
  * github: https://github.com/p410n3/knifechoose.nut/
@@ -24,26 +24,27 @@
  */
 
 //Current script's version. Used in messages, so it is not hard-coded.
-const kc_version = "v2.6.0";
+const kc_version = "v2.7.0";
 
 enum Knife
 {
-	standard,	    //0		//We have to use "standard" instead of "default", 'cause "default" is a prereserved key-word :c
-	flip,		    //1
-	gut,		    //2
-	falchion,	    //3
-	huntsman,	    //4
-	karambit,	    //5
-    m9,			    //6
-	bayonet,	    //7
-	daggers,	    //8
-	bowie,		    //9
-    butterfly,     	//10
-    stiletto,       //11
-    ursus,          //12
-    widowmaker,     //13 aka talon
-    gypsy_jackknife,//14 aka navaja
-	ghost			//15
+	standard,	//0		//We have to use "standard" instead of "default", 'cause "default" is a prereserved key-word :c
+	flip,		//1
+	gut,		//2
+	falchion,	//3
+	huntsman,	//4
+	karambit,	//5
+	m9,		//6
+	bayonet,	//7
+	daggers,	//8
+	bowie,		//9
+	butterfly,	//10
+	stiletto,       //11
+	ursus,          //12
+	widowmaker,     //13 aka talon
+	gypsy_jackknife,//14 aka navaja
+	ghost,		//15
+	css		//16
 }
 
 //Tracks which knife is currently selected
@@ -60,7 +61,7 @@ function knifeWelcomeMessage()
 	printl("[KC] Usage:");
 	printl("[KC] Press 'INS' to switch between knives or");
 	printl("[KC] Type the knife's name in your console with \"kc_\" prefix to force-set it:");
-	printl("[KC] All available knives: flip, gut, falchion, huntsman, karambit, m9, bayonet, daggers, bowie, butterfly, stiletto, ursus, talon, navaja, default");
+	printl("[KC] All available knives: flip, gut, falchion, huntsman, karambit, m9, bayonet, daggers, bowie, butterfly, stiletto, ursus, talon, navaja, css, default");
 	printl("[KC] Example: kc_daggers");
 	printl("[KC] Note: Cause of some game limitations you have to press 'HOME' key to reload the script every round")
 	printl("[KC]			You may take a look on the github repo's discription for details");
@@ -84,6 +85,7 @@ function knifeAliases()
 	SendToConsole("alias kc_talon \"script knifeSet(Knife.widowmaker)\"");
 	SendToConsole("alias kc_navaja \"script knifeSet(Knife.gypsy_jackknife)\"");
 	SendToConsole("alias kc_ghost \"script knifeSet(Knife.ghost)\"");
+	SendToConsole("alias kc_css \"script knifeSet(Knife.css)\"");
 	SendToConsole("alias kc_default \"script knifeSet(Knife.standard)\"");
 }
 
@@ -227,40 +229,46 @@ function knifeSet(knife_change_to)
 			break;
 		}
 
-        case Knife.stiletto: 
-        {
-            kc_current_knife = Knife.stiletto;
+	        case Knife.stiletto: 
+	        {
+			kc_current_knife = Knife.stiletto;
 			display_message = "[KC] Stiletto Knife equiped.";
 			break;
-        }
-
-        case Knife.ursus: 
-        {
-            kc_current_knife = Knife.ursus;
+	        }
+	
+	        case Knife.ursus: 
+	        {
+			kc_current_knife = Knife.ursus;
 			display_message = "[KC] Ursus Knife equiped.";
 			break;
-        }
-
+	        }
+	
 		case Knife.widowmaker: 
-        {
-            kc_current_knife = Knife.widowmaker;
+	        {
+			kc_current_knife = Knife.widowmaker;
 			display_message = "[KC] Talon Knife equiped.";
 			break;
-        }
-
+	        }
+	
 		case Knife.gypsy_jackknife: 
-        {
-            kc_current_knife = Knife.gypsy_jackknife;
+	        {
+			kc_current_knife = Knife.gypsy_jackknife;
 			display_message = "[KC] Najava Knife equiped.";
 			break;
-        }
-
+	        }
+	
 		case Knife.ghost: 
-        {
-            kc_current_knife = Knife.ghost;
+	        {
+			kc_current_knife = Knife.ghost;
 			display_message = "[KC] Spectral Shiv equiped.";
 			break;
-        }
+	        }
+		case Knife.css: 
+	        {
+	        	kc_current_knife = Knife.css;
+			display_message = "[KC] CSS Knife equiped.";
+			break;
+	        }
 
 		default:
 		{	//Any other
@@ -408,7 +416,7 @@ function knifeModelSet()
 			break;
 		}
 
-        case Knife.stiletto:
+        	case Knife.stiletto:
 		{
 			local knife = null;
 			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
@@ -469,6 +477,19 @@ function knifeModelSet()
 			local knife = null;
 			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 				knife.SetModel("models/weapons/v_knife_ghost.mdl");
+
+			break;
+		}
+
+		case Knife.css:
+		{
+			local knife = null;
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_t.mdl"))
+				knife.SetModel("models/weapons/v_knife_css.mdl");
+
+			local knife = null;
+			while(knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
+				knife.SetModel("models/weapons/v_knife_css.mdl");
 
 			break;
 		}
