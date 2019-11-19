@@ -365,7 +365,7 @@ function knifeModelSet()
 				knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
 
 			local knife = null;
-			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_bayonet.mdl"))
+			while (knife = Entities.FindByModel(knife, "models/weapons/v_knife_default_ct.mdl"))
 				knife.SetModel("models/weapons/v_knife_falchion_advanced.mdl");
 
 			break;
