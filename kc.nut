@@ -20,9 +20,12 @@
  */
 
 const KC_VERSION = "3.0.0-beta"
+KC_DEBUG <- false;
 
 function kc_welcome_message()
 {
+	if(KC_DEBUG) printl("[KC Debug] In kc_welcome_message()");
+
 	ScriptPrintMessageChatAll("[KC] Knife Changer " + KC_VERSION + " loaded. Check your admin console!");
 	printl("[KC] knifechoose.nut");
 	printl("[KC] Knife Changer " + KC_VERSION);
@@ -38,6 +41,7 @@ function kc_welcome_message()
 
 function kc_admin_aliases()
 {
+	if(KC_DEBUG) printl("[KC Debug] In kc_admin_aliases()");
 	SendToConsole("alias kc_bayonet \"script equip_knife(Knife.bayonet)\"");
 	SendToConsole("alias kc_bowie \"script equip_knife(Knife.bowie)\"");
 	SendToConsole("alias kc_butterfly \"script equip_knife(Knife.butterfly)\"");
@@ -62,6 +66,7 @@ function kc_admin_aliases()
 	SendToConsole("alias kc_ursus \"script equip_knife(Knife.ursus)\"");
 }
 
+if(KC_DEBUG) printl("[KC Debug] Initial loading");
 kc_welcome_message();
 kc_admin_aliases();
 
@@ -93,9 +98,20 @@ Knife <-
 
 function equip_knife(knife)
 {
+	if(KC_DEBUG) printl("[KC Debug] In equip_knife(" + knife + ")");
+
 	local equip = Entities.CreateByClassname("game_player_equip");
+	if(KC_DEBUG) printl("[KC Debug] Created a game_player_equip entity with id " + equip);
+	
 	EntFireByHandle(equip, "addoutput", knife + " 1", 0, null, null);
+	if(KC_DEBUG) printl("[KC Debug] Added " + knife + " to the game_player_equip");
+
 	EntFire("weapon_knife*", "kill");
+	if(KC_DEBUG) printl("[KC Debug] Killed all knife entities");
+
 	EntFireByHandle(equip, "TriggerForAllPlayers", "", 0, null, null);
+	if(KC_DEBUG) printl("[KC Debug] Triggered game_player_equip for all players");
+
 	EntFire("weapon_knife", "addoutput", "classname weapon_knifegg");
+	if(KC_DEBUG) printl("[KC Debug] Changed class of all knives to weapon_knifegg");
 }
