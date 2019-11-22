@@ -1,60 +1,17 @@
 kc.nut
 ---------------
 
-VScript to use almost all knife models on a local server.
+VScript to change knives on a listen(local) server
 
 Installation and Usage
 ---------------
 
-The kc.nut needs to be placed in "\<your csgo directory\>/csgo/scripts/vscripts"
+The script file kc.nut needs to be placed in "\<your csgo directory\>/csgo/scripts/vscripts"
 
-To run it in-game: start a local server (for example 'Offline with Bots') and write "script_execute kc"
-in your console. Then you can:
-
-* Press INS (or Insert) to switch to the next available knife
-* Press DEL (or Delete) to switch to the previous available knife
-* Press HOME (or Home) at every roundstart to actually load the script again. (It resets every round - game limitation)
-
-You don't know which keys We are talking about? We mean these, above your arrowkeys:
-
-![Keys](http://i.imgur.com/80HBEjD.png)
-
-Or you can force-set the desired knife using "kc_<knife's name>"(example: kc_daggers)
-All available knives:
-* flip
-* gut
-* falchion
-* huntsman
-* karambit
-* m9
-* bayonet
-* daggers
-* bowie
-* butterfly
-* stiletto
-* ursus
-* talon
-* navaja
-* ghost
-* default
-
-ToDo List:
-----------
-
-* Add an option to customize binds
-* Add a little menu(though I have no idea how to implement it yet)
+To run it in-game: start a local server (for example 'Offline with Bots') and type "script_execute kc" in the console
+Then type in the desired knife using "kc_<knife's name>"(example: kc_daggers). All available knives will have been listed in the console previously
 
 Links:
 ------
 
 [Gamebanana](http://gamebanana.com/gamefiles/4107) **OUTDATED**
-
-Youtube Preview Video(a little bit outdated, but still shows what the script does)
-
- <a href="http://www.youtube.com/watch?feature=player_embedded&v=iy13ZF4DDP4" target="_blank"><img src="http://img.youtube.com/vi/iy13ZF4DDP4/0.jpg" alt="Example of using Knife Chooser Script 2.0 " width="240" height="180" border="10" /></a>
-
-
-How the script works and why you have to press a key on every roundstart to reload it:
---------------------------------------------------------------------------------------
-
-Valve disallowed direct access to the weapon_knife entities, so we can't just change the weapon to the desired knife. What the script does is it uses Entities.SetModel() vscript function to change your knife model to another one. But because the function is one-off, we would need to run it every time we change our weapon to a knife. To make the change automatic and almost instant the script creates on the map an invisible logic_timer entity, which searches for a standard knife model every 0.5 seconds and if finds, it changes it to the knife of your choice. But 'cause the logic_timer entity is located DIRECTLY on the map, every round start it disappears(just like weapons, nades etc). What happens when you press 'HOME' is you create a new logic_timer entity, and everything is working just again.
