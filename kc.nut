@@ -18,7 +18,7 @@
  * More info on the Github page
  */
 
-const KC_VERSION = "3.0.0-beta"
+const KC_VERSION = "3.0.0"
 KC_DEBUG <- false;
 
 function kc_welcome_message()
