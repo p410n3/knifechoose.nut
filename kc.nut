@@ -21,6 +21,21 @@
 
 const KC_VERSION = "3.0.0-beta"
 
+function kc_welcome_message()
+{
+	ScriptPrintMessageChatAll("[KC] Knife Changer " + KC_VERSION + " loaded. Check your admin console!");
+	printl("[KC] knifechoose.nut");
+	printl("[KC] Knife Changer " + KC_VERSION);
+	printl("[KC] by Ciren and p410n3, site: https://github.com/p410n3/knifechoose.nut");
+	printl("[KC] Usage:");
+	printl("[KC] Press 'INS' to switch between knives or");
+	printl("[KC] Type in a knife's name preceded by \"kc_\" in the console:");
+	printl("[KC] All available knives: default, bayonet, bowie, butterfly, css, daggers, falchion, flip, ghost, gungame, gut, huntsman, karambit, m9, navaja, nomad, paracord, skeleton, stiletto, survival, talon, ursus");
+	printl("[KC] Example: kc_daggers");
+	printl("[KC] Note: Because of some game limitations you have to press 'HOME' key to reload the script every round");
+	printl("[KC]                    You may take a look on the github repo's discription for details");
+}
+
 function kc_admin_aliases()
 {
 	SendToConsole("alias kc_bayonet \"script equip_knife(Knife.bayonet)\"");
@@ -47,6 +62,7 @@ function kc_admin_aliases()
 	SendToConsole("alias kc_ursus \"script equip_knife(Knife.ursus)\"");
 }
 
+kc_welcome_message();
 kc_admin_aliases();
 
 Knife <- 
