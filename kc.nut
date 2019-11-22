@@ -1,4 +1,4 @@
-/* knifechoose.nut v2.8.0
+/* knifechoose.nut v2.8.1
  * Firstperson Knife Model Changer
  * by Ciren and p410n3
  * 
@@ -25,7 +25,7 @@
  */
 
 //Current script's version. Used in messages
-const kc_version = "v2.8.0";
+const kc_version = "v2.8.1";
 
 enum Knife
 {
@@ -66,10 +66,10 @@ function knifeWelcomeMessage()
 	printl("[KC] by Ciren and PalOne, site: https://github.com/p410n3/knifechoose.nut");
 	printl("[KC] Usage:");
 	printl("[KC] Press 'INS' to switch between knives or");
-	printl("[KC] Type in a knife's name preceded by "kc_" in the console:");
+	printl("[KC] Type in a knife's name preceded by \"kc_\" in the console:");
 	printl("[KC] All available knives: flip, gut, falchion, huntsman, karambit, m9, bayonet, daggers, bowie, butterfly, stiletto, ursus, talon, navaja, css, canis, cord, gg, outdoor, skeleton, default");
 	printl("[KC] Example: kc_daggers");
-	printl("[KC] Note: Because of some game limitations you have to press 'HOME' key to reload the script every round")
+	printl("[KC] Note: Because of some game limitations you have to press 'HOME' key to reload the script every round");
 	printl("[KC]			You may take a look on the github repo's discription for details");
 }
 
