@@ -2,19 +2,18 @@
  * Knife Changer
  * by Ciren and p410n3
  * 
- * Github: https://github.com/p410n3/knifechoose.nut/
+ * Github: https://github.com/p410n3/knifechoose.nut
  * License: LGPLv3
  *
- * Put the script in /csgo/scripts/vscripts/
+ * Intended only for listen servers
  *
- * USAGE, in console:
- *      script_execute kc
+ * USAGE:
+ * Put the script in /csgo/scripts/vscripts/
+ * Type in the console "script_execute kc"
  * Type in a knife's name preceded by "kc_":
  *      Example: "kc_flip"
  * 
- * TODO:
- * Or press 'INS'(auto-binded) to scroll through all the knives available
- * You also have to press 'HOME' on every roundstart to reload the script.
+ * Press 'HOME' to regive the latest knife after losing it, e.g. after death
  * 
  * More info on the Github page
  */
@@ -64,6 +63,8 @@ function kc_admin_aliases()
 	SendToConsole("alias kc_survival \"script equip_knife(Knife.survival)\"");
 	SendToConsole("alias kc_talon \"script equip_knife(Knife.talon)\"");
 	SendToConsole("alias kc_ursus \"script equip_knife(Knife.ursus)\"");
+
+	SendToConsole("bind HOME \"script equip_knife(KC_LAST_KNIFE)\"")
 }
 
 if(KC_DEBUG) printl("[KC Debug] Initial loading");
@@ -95,10 +96,15 @@ Knife <-
 	talon = "weapon_knife_widowmaker",
 	ursus = "weapon_knife_ursus",
 }
+KC_LAST_KNIFE <- Knife.def;
+
 
 function equip_knife(knife)
 {
 	if(KC_DEBUG) printl("[KC Debug] In equip_knife(" + knife + ")");
+
+	if(KC_DEBUG) printl("[KC Debug] KC_LAST_KNIFE is set to " + knife);
+	KC_LAST_KNIFE = knife;
 
 	local equip = Entities.CreateByClassname("game_player_equip");
 	if(KC_DEBUG) printl("[KC Debug] Created a game_player_equip entity with id " + equip);
