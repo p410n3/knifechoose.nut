@@ -1,27 +1,78 @@
-Knives <- 
+ /* 
+ * Knife Changer
+ * by Ciren and p410n3
+ * 
+ * Github: https://github.com/p410n3/knifechoose.nut/
+ * License: LGPLv3
+ *
+ * Put the script in /csgo/scripts/vscripts/
+ *
+ * USAGE, in console:
+ *      script_execute kc
+ * Type in a knife's name preceded by "kc_":
+ *      Example: "kc_flip"
+ * 
+ * TODO:
+ * Or press 'INS'(auto-binded) to scroll through all the knives available
+ * You also have to press 'HOME' on every roundstart to reload the script.
+ * 
+ * More info on the Github page
+ */
+
+const KC_VERSION = "3.0.0-beta"
+
+function kc_admin_aliases()
+{
+	SendToConsole("alias kc_bayonet \"script equip_knife(Knife.bayonet)\"");
+	SendToConsole("alias kc_bowie \"script equip_knife(Knife.bowie)\"");
+	SendToConsole("alias kc_butterfly \"script equip_knife(Knife.butterfly)\"");
+	SendToConsole("alias kc_css \"script equip_knife(Knife.css)\"");
+	SendToConsole("alias kc_daggers \"script equip_knife(Knife.daggers)\"");
+	SendToConsole("alias kc_default \"script equip_knife(Knife.default)\"");
+	SendToConsole("alias kc_falchion \"script equip_knife(Knife.falchion)\"");
+	SendToConsole("alias kc_flip \"script equip_knife(Knife.flip)\"");
+	SendToConsole("alias kc_ghost \"script equip_knife(Knife.ghost)\"");
+	SendToConsole("alias kc_gungame \"script equip_knife(Knife.gungame)\"");
+	SendToConsole("alias kc_gut \"script equip_knife(Knife.gut)\"");
+	SendToConsole("alias kc_huntsman \"script equip_knife(Knife.huntsman)\"");
+	SendToConsole("alias kc_karambit \"script equip_knife(Knife.karambit)\"");
+	SendToConsole("alias kc_m9 \"script equip_knife(Knife.m9)\"");
+	SendToConsole("alias kc_navaja \"script equip_knife(Knife.navaja)\"");
+	SendToConsole("alias kc_nomad \"script equip_knife(Knife.nomad)\"");
+	SendToConsole("alias kc_paracord \"script equip_knife(Knife.paracord)\"");
+	SendToConsole("alias kc_skeleton \"script equip_knife(Knife.skeleton)\"");
+	SendToConsole("alias kc_stiletto \"script equip_knife(Knife.stiletto)\"");
+	SendToConsole("alias kc_survival \"script equip_knife(Knife.survival)\"");
+	SendToConsole("alias kc_talon \"script equip_knife(Knife.talon)\"");
+	SendToConsole("alias kc_ursus \"script equip_knife(Knife.ursus)\"");
+}
+
+kc_admin_aliases();
+
+Knife <- 
 {
 	def = "weapon_knife",
-	flip = "weapon_knife_flip",
-	gut = "weapon_knife_gut",
+	bayonet = "weapon_bayonet",
+	bowie = "weapon_knife_survival_bowie",
+	butterfly = "weapon_knife_butterfly",
+	css = "weapon_knife_css",
+	daggers = "weapon_knife_push",
 	falchion = "weapon_knife_falchion",
+	flip = "weapon_knife_flip",
+	ghost = "weapon_knife_ghost",
+	gungame = "weapon_knifegg",
+	gut = "weapon_knife_gut",
 	huntsman = "weapon_knife_tactical",
 	karambit = "weapon_knife_karambit",
 	m9 = "weapon_knife_m9_bayonet",
-	bayonet = "weapon_bayonet",
-	daggers = "weapon_knife_push",
-	bowie = "weapon_knife_survival_bowie",
-	butterfly = "weapon_knife_butterfly",
-	stiletto = "weapon_knife_stiletto",
-	ursus = "weapon_knife_ursus",
-	talon = "weapon_knife_widowmaker",
 	navaja = "weapon_knife_gypsy_jackknife",
-	ghost = "weapon_knife_ghost",
-	css = "weapon_knife_css",
-	survival = "weapon_knife_canis",
-	paracord = "weapon_knife_cord",
-	gungame = "weapon_knifegg",
 	nomad = "weapon_knife_outdoor",
+	paracord = "weapon_knife_cord",
 	skeleton = "weapon_knife_skeleton"
+	stiletto = "weapon_knife_stiletto",
+	survival = "weapon_knife_canis",
+	talon = "weapon_knife_widowmaker",
+	ursus = "weapon_knife_ursus",
 }
 
 function equip_knife(knife)
