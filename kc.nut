@@ -18,12 +18,11 @@
  * More info on the Github page
  */
 
-const KC_VERSION = "3.0.0"
-KC_DEBUG <- false;
+const KC_VERSION = "3.0.1"
 
 function printd(message)
 {
-	if(KC_DEBUG) printl("[KC Debug] " + message);
+	if(GetDeveloperLevel() > 0) printl("[KC Debug] " + message);
 }
 
 function kc_welcome_message()
