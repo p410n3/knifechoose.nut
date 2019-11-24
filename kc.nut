@@ -30,7 +30,6 @@ function kc_welcome_message()
 	printl("[KC] Knife Changer " + KC_VERSION);
 	printl("[KC] by Ciren and p410n3, site: https://github.com/p410n3/knifechoose.nut");
 	printl("[KC] Usage:");
-	printl("[KC] Press 'INS' to switch between knives or");
 	printl("[KC] Type in a knife's name preceded by \"kc_\" in the console:");
 	printl("[KC] All available knives: default, bayonet, bowie, butterfly, css, daggers, falchion, flip, ghost, gungame, gut, huntsman, karambit, m9, navaja, nomad, paracord, skeleton, stiletto, survival, talon, ursus");
 	printl("[KC] Example: kc_daggers");
@@ -94,7 +93,7 @@ Knife <-
 	stiletto = "weapon_knife_stiletto",
 	survival = "weapon_knife_canis",
 	talon = "weapon_knife_widowmaker",
-	ursus = "weapon_knife_ursus",
+	ursus = "weapon_knife_ursus"
 }
 KC_LAST_KNIFE <- Knife.def;
 
