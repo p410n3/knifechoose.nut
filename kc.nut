@@ -44,29 +44,28 @@ function kc_welcome_message()
 function kc_admin_aliases()
 {
 	printd("In kc_admin_aliases()");
-	SendToConsole("alias kc_bayonet \"script equip_knife(Knife.bayonet)\"");
-	SendToConsole("alias kc_bowie \"script equip_knife(Knife.bowie)\"");
-	SendToConsole("alias kc_butterfly \"script equip_knife(Knife.butterfly)\"");
-	SendToConsole("alias kc_css \"script equip_knife(Knife.css)\"");
-	SendToConsole("alias kc_daggers \"script equip_knife(Knife.daggers)\"");
-	SendToConsole("alias kc_default \"script equip_knife(Knife.default)\"");
-	SendToConsole("alias kc_falchion \"script equip_knife(Knife.falchion)\"");
-	SendToConsole("alias kc_flip \"script equip_knife(Knife.flip)\"");
-	SendToConsole("alias kc_ghost \"script equip_knife(Knife.ghost)\"");
-	SendToConsole("alias kc_gungame \"script equip_knife(Knife.gungame)\"");
-	SendToConsole("alias kc_gut \"script equip_knife(Knife.gut)\"");
-	SendToConsole("alias kc_huntsman \"script equip_knife(Knife.huntsman)\"");
-	SendToConsole("alias kc_karambit \"script equip_knife(Knife.karambit)\"");
-	SendToConsole("alias kc_m9 \"script equip_knife(Knife.m9)\"");
-	SendToConsole("alias kc_navaja \"script equip_knife(Knife.navaja)\"");
-	SendToConsole("alias kc_nomad \"script equip_knife(Knife.nomad)\"");
-	SendToConsole("alias kc_paracord \"script equip_knife(Knife.paracord)\"");
-	SendToConsole("alias kc_skeleton \"script equip_knife(Knife.skeleton)\"");
-	SendToConsole("alias kc_stiletto \"script equip_knife(Knife.stiletto)\"");
-	SendToConsole("alias kc_survival \"script equip_knife(Knife.survival)\"");
-	SendToConsole("alias kc_talon \"script equip_knife(Knife.talon)\"");
-	SendToConsole("alias kc_ursus \"script equip_knife(Knife.ursus)\"");
-
+	SendToConsole("alias kc_bayonet \"script equip_knife(knife.bayonet)\"");
+	SendToConsole("alias kc_bowie \"script equip_knife(knife.bowie)\"");
+	SendToConsole("alias kc_butterfly \"script equip_knife(knife.butterfly)\"");
+	SendToConsole("alias kc_css \"script equip_knife(knife.css)\"");
+	SendToConsole("alias kc_daggers \"script equip_knife(knife.daggers)\"");
+	SendToConsole("alias kc_default \"script equip_knife(knife.default)\"");
+	SendToConsole("alias kc_falchion \"script equip_knife(knife.falchion)\"");
+	SendToConsole("alias kc_flip \"script equip_knife(knife.flip)\"");
+	SendToConsole("alias kc_ghost \"script equip_knife(knife.ghost)\"");
+	SendToConsole("alias kc_gungame \"script equip_knife(knife.gungame)\"");
+	SendToConsole("alias kc_gut \"script equip_knife(knife.gut)\"");
+	SendToConsole("alias kc_huntsman \"script equip_knife(knife.huntsman)\"");
+	SendToConsole("alias kc_karambit \"script equip_knife(knife.karambit)\"");
+	SendToConsole("alias kc_m9 \"script equip_knife(knife.m9)\"");
+	SendToConsole("alias kc_navaja \"script equip_knife(knife.navaja)\"");
+	SendToConsole("alias kc_nomad \"script equip_knife(knife.nomad)\"");
+	SendToConsole("alias kc_paracord \"script equip_knife(knife.paracord)\"");
+	SendToConsole("alias kc_skeleton \"script equip_knife(knife.skeleton)\"");
+	SendToConsole("alias kc_stiletto \"script equip_knife(knife.stiletto)\"");
+	SendToConsole("alias kc_survival \"script equip_knife(knife.survival)\"");
+	SendToConsole("alias kc_talon \"script equip_knife(knife.talon)\"");
+	SendToConsole("alias kc_ursus \"script equip_knife(knife.ursus)\"");
 	SendToConsole("bind HOME \"script equip_knife(KC_LAST_KNIFE)\"")
 }
 
@@ -74,7 +73,7 @@ printd("Initial loading");
 kc_welcome_message();
 kc_admin_aliases();
 
-Knife <- 
+knife <- 
 {
 	def = "weapon_knife",
 	bayonet = "weapon_bayonet",
@@ -99,7 +98,7 @@ Knife <-
 	talon = "weapon_knife_widowmaker",
 	ursus = "weapon_knife_ursus"
 }
-KC_LAST_KNIFE <- Knife.def;
+KC_LAST_KNIFE <- knife;
 
 
 function equip_knife(knife)
